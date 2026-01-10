@@ -98,7 +98,7 @@ const JournalHome = () => {
             <div className="relative overflow-hidden rounded-xl mb-6 aspect-[16/9] border border-slate-200">
                  {/* --- HERO IMAGE (You can swap this for /sleep.jpg later) --- */}
                  <img 
-                   src="https://images.unsplash.com/photo-1511296933631-18b897253d58?q=80&w=2070&auto=format&fit=crop" 
+                   src="/sleep.jpg" 
                    alt="Science of Sleep" 
                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-700 ease-in-out"
                  />
