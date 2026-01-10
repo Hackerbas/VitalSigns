@@ -96,10 +96,16 @@ const JournalHome = () => {
       {/* SECTION 1: THE COVER STORY (Big, Bold) */}
       <div className="grid lg:grid-cols-12 gap-12 mb-20">
         <div className="lg:col-span-8 group cursor-pointer">
-            <div className="relative overflow-hidden rounded-xl mb-6 bg-slate-100 aspect-[16/9] border border-slate-200">
-                 {/* Placeholder Abstract Visual */}
-                 <div className="absolute inset-0 bg-gradient-to-tr from-slate-200 to-white opacity-50"></div>
-                 <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/80 to-transparent"></div>
+            <div className="relative overflow-hidden rounded-xl mb-6 aspect-[16/9] border border-slate-200">
+                 {/* --- HERO IMAGE (Unsplash) --- */}
+                 <img 
+                   src="https://images.unsplash.com/photo-1511296933631-18b897253d58?q=80&w=2070&auto=format&fit=crop" 
+                   alt="Science of Sleep" 
+                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-700 ease-in-out"
+                 />
+                 
+                 {/* Dark Overlay so text is readable */}
+                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
                  
                  {/* Content Overlay */}
                  <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10 text-white z-10">
