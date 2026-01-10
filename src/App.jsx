@@ -42,7 +42,6 @@ const Navbar = () => {
         
         {/* CATEGORIES + CLUB BUTTON */}
         <div className="hidden md:flex items-center gap-8 font-bold text-sm text-slate-600">
-          {/* Fake Categories to make it look like a real journal */}
           <a href="#" className="hover:text-black hover:underline decoration-2 underline-offset-4">Biology</a>
           <a href="#" className="hover:text-black hover:underline decoration-2 underline-offset-4">Tech</a>
           <a href="#" className="hover:text-black hover:underline decoration-2 underline-offset-4">Student Life</a>
@@ -97,9 +96,9 @@ const JournalHome = () => {
       <div className="grid lg:grid-cols-12 gap-12 mb-20">
         <div className="lg:col-span-8 group cursor-pointer">
             <div className="relative overflow-hidden rounded-xl mb-6 aspect-[16/9] border border-slate-200">
-                 {/* --- HERO IMAGE (Unsplash) --- */}
+                 {/* --- HERO IMAGE (You can swap this for /sleep.jpg later) --- */}
                  <img 
-                   src="/sleep.jpg" 
+                   src="https://images.unsplash.com/photo-1511296933631-18b897253d58?q=80&w=2070&auto=format&fit=crop" 
                    alt="Science of Sleep" 
                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-700 ease-in-out"
                  />
@@ -169,7 +168,7 @@ const JournalHome = () => {
         </div>
       </div>
 
-      {/* SECTION 3: THE FEED (Grid Layout) */}
+      {/* SECTION 3: RECENT DISPATCHES (Updated with Photos) */}
       <div className="border-t border-black pt-12">
           <div className="flex items-center gap-2 mb-12">
               <Activity className="w-6 h-6 text-blue-600" />
@@ -178,22 +177,59 @@ const JournalHome = () => {
 
           <div className="grid md:grid-cols-3 gap-x-8 gap-y-12">
               {[
-                  { title: "DNA Extraction: A Strawberry Experiment", desc: "A step-by-step breakdown of cell lysis using household items.", icon: <Microscope className="w-5 h-5"/> },
-                  { title: "The Physiology of Caffeine Crash", desc: "What happens to your adenosine receptors when the coffee wears off?", icon: <FlaskConical className="w-5 h-5"/> },
-                  { title: "AI in Medicine: Friend or Foe?", desc: "Analyzing the role of Large Language Models in patient triage.", icon: <Cpu className="w-5 h-5"/> },
-                  { title: "Lab Safety 101: The Checklist", desc: "Essential protocols before you touch a single beaker.", icon: <Activity className="w-5 h-5"/> },
-                  { title: "Student Stress & Cortisol Levels", desc: "A proposed study for the upcoming Spring term.", icon: <TrendingUp className="w-5 h-5"/> },
-                  { title: "Club Update: New 3D Printer Arrival", desc: "Unboxing and calibration of the new engineering unit.", icon: <Globe className="w-5 h-5"/> },
+                  { 
+                    title: "DNA Extraction: A Strawberry Experiment", 
+                    desc: "A step-by-step breakdown of cell lysis using household items.", 
+                    image: "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&q=80&w=800",
+                    tag: "Lab Report"
+                  },
+                  { 
+                    title: "The Physiology of Caffeine Crash", 
+                    desc: "What happens to your adenosine receptors when the coffee wears off?", 
+                    image: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=800",
+                    tag: "Biochemistry"
+                  },
+                  { 
+                    title: "AI in Medicine: Friend or Foe?", 
+                    desc: "Analyzing the role of Large Language Models in patient triage.", 
+                    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
+                    tag: "Technology"
+                  },
+                  { 
+                    title: "Lab Safety 101: The Checklist", 
+                    desc: "Essential protocols before you touch a single beaker.", 
+                    image: "https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&q=80&w=800",
+                    tag: "Protocol"
+                  },
+                  { 
+                    title: "Student Stress & Cortisol Levels", 
+                    desc: "A proposed study for the upcoming Spring term.", 
+                    image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800",
+                    tag: "Hypothesis"
+                  },
+                  { 
+                    title: "Club Update: New 3D Printer Arrival", 
+                    desc: "Unboxing and calibration of the new engineering unit.", 
+                    image: "https://images.unsplash.com/photo-1631541909061-71e349d1f203?auto=format&fit=crop&q=80&w=800",
+                    tag: "Engineering"
+                  },
               ].map((item, i) => (
                   <div key={i} className="group cursor-pointer flex flex-col h-full">
-                      <div className="bg-slate-50 h-48 w-full rounded-lg mb-6 flex items-center justify-center text-slate-300 border border-slate-100 group-hover:border-blue-200 transition">
-                          {item.icon}
+                      <div className="overflow-hidden rounded-lg mb-4 aspect-[4/3] relative">
+                          <img 
+                            src={item.image} 
+                            alt={item.title} 
+                            className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                          />
+                          <span className="absolute top-3 left-3 bg-black/70 backdrop-blur-sm text-white text-[10px] font-bold uppercase px-2 py-1 rounded">
+                            {item.tag}
+                          </span>
                       </div>
-                      <h3 className="text-xl font-bold mb-3 leading-snug group-hover:text-blue-700 transition">{item.title}</h3>
+                      <h3 className="text-xl font-bold mb-2 leading-snug group-hover:text-blue-700 transition">{item.title}</h3>
                       <p className="text-slate-600 leading-relaxed text-sm mb-4 flex-grow">{item.desc}</p>
-                      <div className="flex items-center justify-between border-t border-slate-100 pt-4 mt-auto">
-                          <span className="text-xs font-bold text-slate-400 uppercase">Read Story</span>
-                          <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-blue-600 transition" />
+                      <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase mt-auto group-hover:text-blue-600 transition">
+                          <span>Read Full Story</span>
+                          <ArrowRight className="w-3 h-3" />
                       </div>
                   </div>
               ))}
