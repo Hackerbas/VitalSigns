@@ -1,30 +1,20 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { 
-  HeartPulse, Activity, Users, Shield, Megaphone, Smartphone, 
-  UserPlus, Menu, X, ChevronRight, Stethoscope, Dna, Globe, 
-  FlaskConical, Calculator, RefreshCw, Droplets, GraduationCap, 
-  Search, AlertCircle, CheckCircle, Brain, Loader2, Calendar,
-  MessageSquare, Send, Camera, ArrowRight, ThumbsUp, ThumbsDown, 
-  Zap, Lightbulb, PenTool, Flame
+  Menu, X, Activity, Globe, Users, TrendingUp, 
+  Clock, Share2, ChevronRight, ArrowRight, Bookmark,
+  Microscope, FlaskConical, Cpu
 } from 'lucide-react';
 
 const VitalSignsWebsite = () => {
-  // ⚠️ PASTE GROQ KEY HERE (Optional) ⚠️
-  // Leave blank for "Simulation Mode"
-  const GROQ_API_KEY = "gsk_YOUR_ACTUAL_KEY_GOES_HERE"; 
-
   return (
     <Router>
-      {/* BACKGROUND: Changed to Neutral-950 (Almost Black) for that "Darker" feel */}
-      <div className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-red-600 selection:text-white flex flex-col">
+      {/* THEME: High-End Journalism (Clean White, Stark Black, Royal Blue Accents) */}
+      <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-600 selection:text-white flex flex-col">
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/lab" element={<Lab apiKey={GROQ_API_KEY} />} />
-          <Route path="/leadership" element={<Leadership />} />
-          <Route path="/community" element={<Community />} />
+          <Route path="/" element={<JournalHome />} />
+          <Route path="/club" element={<ClubHQ />} />
         </Routes>
         <Footer />
       </div>
@@ -37,424 +27,284 @@ const VitalSignsWebsite = () => {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const isActive = (path) => location.pathname === path ? "text-white bg-red-600/20 border border-red-500/50" : "text-neutral-400 hover:text-red-400";
 
   return (
-    <nav className="fixed w-full z-50 bg-neutral-950/80 backdrop-blur-xl border-b border-red-900/30">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between h-20 items-center">
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="bg-red-600 p-2 rounded-xl shadow-lg shadow-red-900/50 group-hover:scale-110 transition">
-              <Activity className="w-6 h-6 text-white" />
-            </div>
-            <span className="font-bold text-2xl tracking-tighter text-white">Vital<span className="text-red-500">Signs</span></span>
-          </Link>
+    <nav className="fixed w-full z-50 bg-white/95 backdrop-blur-sm border-b border-slate-200">
+      <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+        {/* MASTHEAD LOGO */}
+        <Link to="/" className="flex flex-col group">
+          <div className="flex items-center gap-2">
+             <div className="bg-black text-white px-2 py-0.5 font-black text-lg italic tracking-tighter">VS.</div>
+             <span className="font-serif text-2xl font-black tracking-tight group-hover:text-blue-700 transition">VitalSigns<span className="text-slate-400 font-normal italic">Review</span></span>
+          </div>
+          <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 mt-0.5 ml-1">Est. 2026 • Science Journalism</span>
+        </Link>
+        
+        {/* CATEGORIES + CLUB BUTTON */}
+        <div className="hidden md:flex items-center gap-8 font-bold text-sm text-slate-600">
+          {/* Fake Categories to make it look like a real journal */}
+          <a href="#" className="hover:text-black hover:underline decoration-2 underline-offset-4">Biology</a>
+          <a href="#" className="hover:text-black hover:underline decoration-2 underline-offset-4">Tech</a>
+          <a href="#" className="hover:text-black hover:underline decoration-2 underline-offset-4">Student Life</a>
           
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-2">
-            <Link to="/" className={`px-4 py-2 rounded-lg text-sm font-bold transition ${isActive('/')}`}>Home</Link>
-            <Link to="/projects" className={`px-4 py-2 rounded-lg text-sm font-bold transition ${isActive('/projects')}`}>Projects</Link>
-            <Link to="/lab" className={`px-4 py-2 rounded-lg text-sm font-bold transition ${isActive('/lab')}`}>Lab & AI</Link>
-            <Link to="/leadership" className={`px-4 py-2 rounded-lg text-sm font-bold transition ${isActive('/leadership')}`}>Leadership</Link>
-            <Link to="/community" className={`px-4 py-2 rounded-lg text-sm font-bold transition ${isActive('/community')}`}>Community</Link>
-          </div>
+          <div className="h-6 w-px bg-slate-200"></div>
 
-          <div className="md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-white p-2">{isOpen ? <X /> : <Menu />}</button>
-          </div>
+          {/* THE CLUB HQ BUTTON */}
+          <Link to="/club" className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-full hover:bg-blue-700 transition shadow-lg shadow-blue-600/20">
+            <Users className="w-4 h-4" />
+            <span className="font-bold tracking-tight">Club HQ</span>
+          </Link>
         </div>
+
+        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden">
+          {isOpen ? <X /> : <Menu />}
+        </button>
       </div>
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-neutral-900 border-t border-red-900/30 p-4 space-y-2">
-          {['/', '/projects', '/lab', '/leadership', '/community'].map(path => (
-            <Link key={path} to={path} onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-lg hover:bg-red-900/20 text-red-200 capitalize">
-              {path === '/' ? 'Home' : path.replace('/', '')}
-            </Link>
-          ))}
+      
+       {/* Mobile Menu */}
+       {isOpen && (
+        <div className="md:hidden bg-white border-b border-slate-200 p-6 space-y-6 font-bold text-lg">
+           <Link to="/" onClick={()=>setIsOpen(false)} className="block">Latest Stories</Link>
+           <div className="h-px bg-slate-100 w-full"></div>
+           <Link to="/club" onClick={()=>setIsOpen(false)} className="flex items-center gap-2 text-blue-600">
+             <Users className="w-5 h-5" /> Visit Club HQ
+           </Link>
         </div>
       )}
     </nav>
   );
 };
 
-// --- PAGES ---
-
-const Home = () => (
-  <header className="relative pt-40 pb-40 overflow-hidden">
-    {/* CRAZY GLOW EFFECTS */}
-    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-red-600/20 blur-[120px] rounded-full pointer-events-none animate-pulse"></div>
-    <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-rose-900/10 blur-[100px] rounded-full pointer-events-none"></div>
-
-    <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
-      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-950/30 border border-red-500/30 text-red-400 text-sm font-bold mb-8 backdrop-blur-md shadow-[0_0_15px_rgba(220,38,38,0.3)]">
-        <span className="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
-        Accepting New Members for 2026
-      </div>
-      <h1 className="text-5xl md:text-8xl font-black tracking-tight mb-8 leading-tight text-white drop-shadow-2xl">
-        The Future of <br/>
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-400 to-white">Biomedical Science</span>
-      </h1>
-      <p className="text-xl md:text-2xl text-neutral-400 max-w-3xl mx-auto mb-12 leading-relaxed">
-        VitalSigns is the premier student organization bridging the gap between classroom theory and real-world medical innovation.
-      </p>
-      <div className="flex flex-col sm:flex-row justify-center gap-4">
-        <Link to="/community" className="bg-red-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-red-500 transition-all shadow-[0_0_30px_rgba(220,38,38,0.4)] flex items-center justify-center gap-2 hover:scale-105">
-          <UserPlus className="w-5 h-5" /> Join VitalSigns
-        </Link>
-        <Link to="/projects" className="px-8 py-4 rounded-xl font-bold text-lg border border-white/10 hover:bg-white/5 transition-all flex items-center justify-center gap-2 text-white hover:border-red-500/50">
-          <Globe className="w-5 h-5" /> View Projects
-        </Link>
-      </div>
-    </div>
-  </header>
-);
-
-const Projects = () => (
-  <div className="pt-32 pb-20 max-w-7xl mx-auto px-4">
-    <div className="flex items-center gap-4 mb-16">
-      <div className="h-px bg-red-900/30 flex-1"></div>
-      <h2 className="text-3xl font-bold text-white tracking-wide">Current Projects</h2>
-      <div className="h-px bg-red-900/30 flex-1"></div>
-    </div>
-
-    {/* EXISTING PROJECTS */}
-    <div className="max-w-5xl mx-auto mb-24">
-      <div className="bg-neutral-900/50 border border-red-900/20 rounded-2xl overflow-hidden hover:border-red-500/50 transition duration-300 group shadow-2xl">
-        <div className="grid grid-cols-1 md:grid-cols-2">
-          <div className="h-64 md:h-auto relative overflow-hidden bg-neutral-950 flex items-center justify-center group-hover:bg-red-950/10 transition">
-            <FlaskConical className="w-20 h-20 text-red-600" />
-            <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 to-transparent pointer-events-none"></div>
-          </div>
-          <div className="p-8 md:p-12 flex flex-col justify-center">
-            <div className="inline-block w-fit bg-green-500/10 text-green-400 border border-green-500/20 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4">Completed</div>
-            <h3 className="text-3xl font-bold text-white mb-4">Hand-made Hand Sanitizer</h3>
-            <p className="text-neutral-400 mb-6">A student-led initiative to formulate and produce a high-efficacy hand sanitizer exploring chemical formulation and quality control.</p>
-            <div className="flex items-center gap-4 text-sm text-red-400">
-              <span className="flex items-center gap-1"><Shield className="w-4 h-4" /> Safety Protocol</span>
-              <span className="flex items-center gap-1"><FlaskConical className="w-4 h-4" /> Formulation</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {/* TIMELINE */}
-    <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-2"><Calendar className="w-6 h-6 text-red-500" /> Upcoming Roadmap</h2>
-    <div className="max-w-3xl mx-auto border-l-2 border-red-900/30 pl-8 space-y-12">
-      {[
-        { title: "DNA Extraction Lab", date: "February 2026", desc: "Extracting DNA from strawberries using household items." },
-        { title: "Prosthetic Workshop", date: "March 2026", desc: "Designing simple 3D-printed prosthetic hands." },
-        { title: "Vital Signs Clinic", date: "April 2026", desc: "Training members to measure BP and Heart Rate for staff." }
-      ].map((item, i) => (
-        <div key={i} className="relative group">
-          <span className="absolute -left-[41px] top-0 flex items-center justify-center w-6 h-6 bg-black border-2 border-red-600 rounded-full shadow-[0_0_10px_rgba(220,38,38,0.5)]"></span>
-          <div className="bg-neutral-900/40 border border-white/5 p-6 rounded-xl hover:bg-neutral-900 hover:border-red-500/30 transition">
-             <div className="flex justify-between mb-2">
-               <h3 className="text-xl font-bold text-white group-hover:text-red-400 transition">{item.title}</h3>
-               <span className="text-xs bg-red-900/20 text-red-300 px-2 py-1 rounded font-mono border border-red-900/30">{item.date}</span>
-             </div>
-             <p className="text-neutral-400">{item.desc}</p>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
-const Lab = ({ apiKey }) => {
-  const [symptomInput, setSymptomInput] = useState('');
-  const [diagnosisResult, setDiagnosisResult] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  
-  // Calculator States
-  const [weight, setWeight] = useState('');
-  const [height, setHeight] = useState('');
-  const [bmi, setBmi] = useState(null);
-  const [waterWeight, setWaterWeight] = useState('');
-  const [activityLevel, setActivityLevel] = useState('low'); 
-  const [waterResult, setWaterResult] = useState(null);
-
-  const handleDiagnosis = async (e) => {
-    e.preventDefault();
-    if (!symptomInput) return;
-    setIsLoading(true);
-    setDiagnosisResult(null);
-
-    try {
-      if (!apiKey || apiKey === "gsk_YOUR_ACTUAL_KEY_GOES_HERE") {
-        throw new Error("No Key"); // Trigger simulation mode
-      }
-      // ... Real API Call would go here ...
-      throw new Error("Simulate");
-    } catch (error) {
-      // --- DEMO MODE ---
-      setTimeout(() => {
-        setDiagnosisResult({ 
-            condition: "Simulation: Common Cold", 
-            severity: "Low Risk", 
-            color: "green", 
-            desc: "Based on the simulation, this appears to be a mild viral infection.", 
-            tips: "Rest, drink water, and monitor temperature.", 
-            action: "Visit the school nurse if fever persists." 
-        });
-        setIsLoading(false);
-      }, 1500); 
-    }
-  };
-
-  const calculateBMI = (e) => {
-    e.preventDefault();
-    if (weight && height) setBmi((weight / ((height/100)**2)).toFixed(1));
-  };
-
-  const calculateWater = (e) => {
-    e.preventDefault();
-    let base = waterWeight * 35;
-    if (activityLevel === 'medium') base += 500;
-    if (activityLevel === 'high') base += 1000;
-    setWaterResult((base / 1000).toFixed(2));
-  };
-
+// --- MAIN PAGE: THE JOURNAL ---
+const JournalHome = () => {
   return (
-    <div className="pt-32 pb-20 max-w-7xl mx-auto px-4">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-white">AI Lab & Tools</h1>
-        <p className="text-red-400">Interactive health analysis powered by Groq AI.</p>
-      </div>
-
-      <div className="grid lg:grid-cols-2 gap-8">
-        {/* AI NURSE */}
-        <div className="bg-gradient-to-br from-neutral-900 to-black border border-red-900/30 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
-           {/* Decorative bg element */}
-           <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/10 blur-3xl rounded-full"></div>
-           
-           <div className="flex items-center gap-3 mb-6 relative z-10">
-             <div className="bg-red-600 p-2 rounded-lg shadow-[0_0_15px_rgba(220,38,38,0.5)]"><Brain className="w-6 h-6 text-white" /></div>
-             <h3 className="text-2xl font-bold text-white">AI Nurse Agent</h3>
-           </div>
-           <form onSubmit={handleDiagnosis} className="flex gap-4 mb-6 relative z-10">
-             <input type="text" value={symptomInput} onChange={e=>setSymptomInput(e.target.value)} placeholder="Describe symptoms (e.g., headache, fever)..." className="w-full bg-neutral-900 border border-neutral-700 rounded-xl px-4 py-3 text-white focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none transition" />
-             <button disabled={isLoading} className="bg-red-600 px-6 rounded-xl font-bold text-white hover:bg-red-500 transition flex items-center shadow-lg shadow-red-900/20">{isLoading ? <Loader2 className="animate-spin" /> : "Scan"}</button>
-           </form>
-           {diagnosisResult && (
-             <div className="bg-neutral-800/50 border border-white/10 rounded-xl p-6 animate-fade-in relative z-10">
-               <div className="flex justify-between mb-2">
-                 <h4 className="text-xl font-bold text-white">{diagnosisResult.condition}</h4>
-                 <span className={`text-${diagnosisResult.color === 'red' ? 'red' : diagnosisResult.color === 'orange' ? 'orange' : 'green'}-400 font-bold uppercase text-sm`}>{diagnosisResult.severity}</span>
-               </div>
-               <p className="text-neutral-300 text-sm mb-4">{diagnosisResult.desc}</p>
-               <div className="bg-black/50 p-3 rounded-lg text-sm text-neutral-300 mb-2 border border-white/5"><strong>Tips:</strong> {diagnosisResult.tips}</div>
-               <div className="bg-black/50 p-3 rounded-lg text-sm text-white border border-white/5"><strong>Action:</strong> {diagnosisResult.action}</div>
-             </div>
-           )}
-        </div>
-
-        {/* CALCULATORS */}
-        <div className="space-y-6">
-           {/* BMI */}
-           <div className="bg-neutral-100 rounded-3xl p-6 text-neutral-950 shadow-xl">
-             <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><Activity className="w-5 h-5 text-red-600" /> BMI Calculator</h3>
-             <div className="flex gap-2 mb-4">
-               <input type="number" placeholder="Weight (kg)" onChange={e=>setWeight(e.target.value)} className="w-full bg-neutral-200 p-3 rounded-xl outline-none focus:ring-2 ring-red-500/20" />
-               <input type="number" placeholder="Height (cm)" onChange={e=>setHeight(e.target.value)} className="w-full bg-neutral-200 p-3 rounded-xl outline-none focus:ring-2 ring-red-500/20" />
-             </div>
-             <button onClick={calculateBMI} className="w-full bg-red-600 text-white font-bold py-3 rounded-xl hover:bg-red-700 transition">Calculate</button>
-             {bmi && <div className="mt-4 text-center text-4xl font-black text-neutral-900">{bmi}</div>}
-           </div>
-
-           {/* Water */}
-           <div className="bg-neutral-900 border border-neutral-800 rounded-3xl p-6 shadow-xl">
-             <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2"><Droplets className="w-5 h-5 text-blue-400" /> Hydration</h3>
-             <div className="flex gap-2 mb-4">
-               <input type="number" placeholder="Weight (kg)" onChange={e=>setWaterWeight(e.target.value)} className="w-full bg-neutral-950 p-3 rounded-xl text-white border border-neutral-700 outline-none focus:border-blue-500" />
-               <div className="flex gap-1">
-                  {['low','medium','high'].map(l=><button key={l} onClick={()=>setActivityLevel(l)} className={`px-2 rounded-lg text-xs capitalize transition ${activityLevel===l?'bg-blue-500 text-white':'bg-neutral-950 text-neutral-400 border border-neutral-800'}`}>{l}</button>)}
-               </div>
-             </div>
-             <button onClick={calculateWater} className="w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-neutral-200 transition">Calculate</button>
-             {waterResult && <div className="mt-4 text-center text-4xl font-black text-white">{waterResult}L</div>}
-           </div>
+    <main className="pt-28 pb-20 px-6 max-w-7xl mx-auto">
+      
+      {/* TICKER / DATE BAR */}
+      <div className="flex flex-col md:flex-row justify-between items-center border-b-2 border-black pb-4 mb-12 text-xs font-mono uppercase tracking-widest text-slate-500">
+        <div className="font-bold text-slate-900">{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+        <div className="flex items-center gap-3 mt-2 md:mt-0">
+             <span className="flex items-center gap-1 text-red-600 font-bold animate-pulse"><TrendingUp className="w-3 h-3" /> LIVE:</span>
+             <span>Lab Results</span>
+             <span>•</span>
+             <span>Exam Schedules</span>
+             <span>•</span>
+             <span>New Prosthetic Proto</span>
         </div>
       </div>
-    </div>
-  );
-};
 
-const Leadership = () => (
-  <div className="pt-32 pb-20 max-w-7xl mx-auto px-4">
-    <div className="text-center mb-16">
-      <h1 className="text-4xl font-bold text-white">Executive Board</h1>
-      <p className="text-red-400">The team powering VitalSigns.</p>
-    </div>
-
-    {/* PRESIDENT */}
-    <div className="max-w-3xl mx-auto mb-16">
-      <div className="bg-gradient-to-r from-red-900/20 to-neutral-900/50 border border-red-500/20 p-8 rounded-2xl flex flex-col md:flex-row items-center gap-6 shadow-[0_0_30px_rgba(220,38,38,0.1)]">
-        <div className="bg-black p-4 rounded-full border-4 border-red-800 shrink-0 shadow-lg"><Stethoscope className="w-12 h-12 text-red-500" /></div>
-        <div className="text-center md:text-left w-full">
-          <div className="text-red-400 text-xs font-bold uppercase tracking-wider mb-1">Club President</div>
-          <h3 className="text-3xl font-bold text-white">Aslan Yıldız</h3>
-          <p className="text-neutral-400 mt-2 text-sm">Leading the vision of VitalSigns.</p>
-        </div>
-      </div>
-    </div>
-
-    {/* FACULTY */}
-    <div className="grid md:grid-cols-3 gap-6 mb-16">
-       {[
-         { name: "Maymouna Taha", role: "Faculty Advisor" },
-         { name: "Ayse Nur", role: "Head of Laboratory" },
-         { name: "Marwa Al Khatib", role: "Faculty Advisor" }
-       ].map((p, i) => (
-         <div key={i} className="bg-neutral-900/30 border border-white/5 p-6 rounded-xl flex flex-col items-center text-center gap-4 hover:border-red-500/30 transition hover:bg-neutral-900/60">
-            <div className="bg-neutral-950 p-3 rounded-lg border border-white/10"><GraduationCap className="text-red-400" /></div>
-            <div><h4 className="text-lg font-bold text-white">{p.name}</h4><p className="text-red-400/60 text-sm">{p.role}</p></div>
-         </div>
-       ))}
-    </div>
-
-    {/* OFFICERS */}
-    <div className="grid md:grid-cols-3 gap-6 mb-16">
-      {[
-        { name: "Shiekh Daiyan", role: "Vice President", grade: "G9B" },
-        { name: "Kaiyaan Akbar", role: "Club Manager", grade: "G10B" },
-        { name: "Abdelrahman Kurdi", role: "Safety Officer", grade: "G10B" },
-        { name: "Abdulrahman", role: "Media & Comms", grade: "Manager" },
-        { name: "Hussien", role: "Social Media", grade: "Outreach" },
-      ].map((m, i) => (
-        <div key={i} className="bg-neutral-900/40 border border-white/5 p-6 rounded-xl hover:border-red-500/40 transition hover:translate-y-[-2px]">
-          <div className="flex justify-between items-start mb-2">
-            <h4 className="text-xl font-bold text-white">{m.name}</h4>
-            <span className="text-xs font-mono text-red-400 bg-red-950/20 border border-red-900/30 px-2 py-1 rounded">{m.grade}</span>
-          </div>
-          <p className="text-neutral-400 text-sm">{m.role}</p>
-        </div>
-      ))}
-    </div>
-
-    {/* MEMBERS LIST */}
-    <div className="bg-neutral-900/30 border border-white/5 rounded-2xl p-8">
-      <div className="flex items-center gap-3 mb-6">
-        <Users className="w-5 h-5 text-red-500" />
-        <h3 className="text-xl font-bold text-white">Active Members</h3>
-      </div>
-      <div className="grid md:grid-cols-3 gap-4">
-        {[{n:"Yassine",g:"G10B"}, {n:"Talib Alnakeeb",g:"G10B"}, {n:"Bilal El Kassar",g:"G10D"}, {n:"Mohammed Abdulkoddous",g:"G9B"}, {n:"Faysal Olabi",g:"G9D"}, {n:"Malik Sanfaz",g:"Member"}].map((m, i) => (
-          <div key={i} className="flex justify-between p-3 bg-neutral-950 rounded-lg border border-white/5 text-neutral-300 text-sm hover:border-red-900/30 transition">
-            <span>{m.n}</span><span className="text-red-600 font-mono text-xs">{m.g}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-);
-
-const Community = () => {
-  const [posts, setPosts] = useState([
-    { id: 1, type: 'suggestion', content: 'We should hold a science fair in the courtyard next month.', votes: 5, time: '2h ago' },
-    { id: 2, type: 'project', content: 'Working on a prosthetic hand prototype using the new 3D printer! 🖨️', votes: 12, time: '4h ago' },
-    { id: 3, type: 'suggestion', content: 'Can we get more Arduino kits for the lab?', votes: 3, time: '1d ago' },
-  ]);
-  
-  const [inputText, setInputText] = useState('');
-  const [postType, setPostType] = useState('suggestion'); 
-
-  const handlePost = (e) => {
-    e.preventDefault();
-    if (!inputText.trim()) return;
-    const newPost = { id: Date.now(), type: postType, content: inputText, votes: 0, time: 'Just now' };
-    setPosts([newPost, ...posts]);
-    setInputText('');
-  };
-
-  const handleVote = (id, change) => {
-    setPosts(posts.map(post => post.id === id ? { ...post, votes: post.votes + change } : post).sort((a,b) => b.votes - a.votes)); 
-  };
-
-  const handleComment = () => { alert("Comments will be enabled in V2!"); }
-
-  return (
-    <div className="pt-32 pb-20 max-w-7xl mx-auto px-4">
-      <div className="text-center mb-16">
-        <h1 className="text-4xl font-bold text-white mb-2">Community Hub</h1>
-        <p className="text-red-400">Share suggestions or show off your projects.</p>
-      </div>
-
-      <div className="grid lg:grid-cols-3 gap-8">
-        
-        {/* SUBMIT PANEL */}
-        <div className="lg:col-span-1">
-          <div className="bg-gradient-to-b from-neutral-900 to-black p-8 rounded-3xl border border-red-900/30 sticky top-32 shadow-xl">
-            <div className="flex items-center gap-2 mb-6 text-white">
-              <MessageSquare className="w-6 h-6 text-red-500" />
-              <h3 className="text-xl font-bold">New Post</h3>
-            </div>
-            
-            <form onSubmit={handlePost}>
-              <div className="flex gap-2 mb-4 p-1 bg-black rounded-xl border border-white/5">
-                <button type="button" onClick={() => setPostType('suggestion')} className={`flex-1 py-2 rounded-lg text-sm font-bold transition flex items-center justify-center gap-2 ${postType === 'suggestion' ? 'bg-red-600 text-white shadow-lg shadow-red-900/50' : 'text-neutral-400 hover:text-white'}`}>
-                  <Lightbulb className="w-4 h-4" /> Suggestion
-                </button>
-                <button type="button" onClick={() => setPostType('project')} className={`flex-1 py-2 rounded-lg text-sm font-bold transition flex items-center justify-center gap-2 ${postType === 'project' ? 'bg-orange-600 text-white shadow-lg shadow-orange-900/50' : 'text-neutral-400 hover:text-white'}`}>
-                  <Zap className="w-4 h-4" /> Project
-                </button>
-              </div>
-
-              <textarea value={inputText} onChange={e=>setInputText(e.target.value)} className="w-full h-32 bg-black border border-neutral-800 rounded-xl p-4 text-white placeholder-neutral-600 mb-4 focus:outline-none focus:border-red-500 transition" placeholder={postType === 'suggestion' ? "I think we should..." : "Today I worked on..."} required />
-              <button className="w-full bg-white text-black font-bold py-3 rounded-xl transition hover:bg-neutral-200 flex items-center justify-center gap-2">
-                <Send className="w-4 h-4" /> Post to Board
-              </button>
-            </form>
-          </div>
-        </div>
-
-        {/* FEED */}
-        <div className="lg:col-span-2 space-y-6">
-           <div className="flex items-center justify-between text-white mb-2">
-             <h3 className="text-xl font-bold flex items-center gap-2">
-               <Activity className="w-5 h-5 text-red-500" /> Live Board
-             </h3>
-             <span className="text-xs text-red-400 bg-red-950/30 px-3 py-1 rounded-full border border-red-900/30">Auto-sorted by Bumps</span>
-           </div>
-
-           {posts.map((post) => (
-             <div key={post.id} className="bg-neutral-900/40 border border-white/5 p-6 rounded-2xl hover:border-red-500/30 transition group flex gap-4">
-               {/* No Side Bar */}
-               <div className="flex-1">
-                 <div className="flex items-center gap-2 mb-2">
-                   {post.type === 'suggestion' ? (
-                     <span className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold px-2 py-1 rounded flex items-center gap-1"><Lightbulb className="w-3 h-3" /> Suggestion</span>
-                   ) : (
-                     <span className="bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-bold px-2 py-1 rounded flex items-center gap-1"><Zap className="w-3 h-3" /> Project Update</span>
-                   )}
-                   <span className="text-neutral-500 text-xs">{post.time}</span>
-                   <span className="ml-auto text-xs font-bold text-red-500 flex items-center gap-1"><ThumbsUp className="w-3 h-3" /> {post.votes}</span>
-                 </div>
-                 <p className="text-neutral-200 leading-relaxed text-lg">{post.content}</p>
+      {/* SECTION 1: THE COVER STORY (Big, Bold) */}
+      <div className="grid lg:grid-cols-12 gap-12 mb-20">
+        <div className="lg:col-span-8 group cursor-pointer">
+            <div className="relative overflow-hidden rounded-xl mb-6 bg-slate-100 aspect-[16/9] border border-slate-200">
+                 {/* Placeholder Abstract Visual */}
+                 <div className="absolute inset-0 bg-gradient-to-tr from-slate-200 to-white opacity-50"></div>
+                 <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/80 to-transparent"></div>
                  
-                 <div className="flex gap-4 mt-4 pt-4 border-t border-white/5 opacity-50 group-hover:opacity-100 transition">
-                    <button onClick={() => handleVote(post.id, 1)} className="text-xs font-bold text-neutral-400 hover:text-white flex items-center gap-1 hover:bg-white/5 px-2 py-1 rounded transition">
-                        <ThumbsUp className="w-3 h-3" /> Bump
-                    </button>
-                    <button onClick={handleComment} className="text-xs font-bold text-neutral-400 hover:text-white flex items-center gap-1 hover:bg-white/5 px-2 py-1 rounded transition">
-                        <MessageSquare className="w-3 h-3" /> Comment
-                    </button>
+                 {/* Content Overlay */}
+                 <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10 text-white z-10">
+                     <span className="bg-blue-600 text-white px-3 py-1 rounded text-xs font-bold uppercase tracking-wider mb-3 inline-block">Deep Dive</span>
+                     <h1 className="text-3xl md:text-5xl font-black font-serif leading-none mb-4 group-hover:text-blue-300 transition">
+                         The Science of Sleep:<br/>Why 8 Hours Isn't Enough.
+                     </h1>
+                     <div className="flex items-center gap-3 text-sm font-medium text-slate-300">
+                        <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-xs text-white font-bold">AY</div>
+                        <span>By Aslan Yıldız</span>
+                        <span>•</span>
+                        <span>6 min read</span>
+                     </div>
                  </div>
-               </div>
-             </div>
-           ))}
+            </div>
         </div>
 
+        {/* SECTION 2: TOP STORIES (Sidebar) */}
+        <div className="lg:col-span-4 flex flex-col gap-8">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+                <span className="font-black text-sm uppercase tracking-widest">Editors' Picks</span>
+            </div>
+
+            {[
+                { 
+                  cat: "Engineering", 
+                  title: "We 3D printed a prosthetic hand for under $50.", 
+                  author: "Lab Team", 
+                  color: "text-purple-600" 
+                },
+                { 
+                  cat: "Chemistry", 
+                  title: "Investigation: Is the school hand sanitizer actually effective?", 
+                  author: "Safety Unit", 
+                  color: "text-emerald-600" 
+                },
+                { 
+                  cat: "Op-Ed", 
+                  title: "Why every student needs to understand basic First Aid.", 
+                  author: "A. Kurdi", 
+                  color: "text-orange-600" 
+                }
+            ].map((story, i) => (
+                <div key={i} className="group cursor-pointer">
+                    <div className={`text-xs font-bold uppercase mb-2 ${story.color} flex items-center gap-2`}>
+                        <div className={`w-2 h-2 rounded-full bg-current`}></div>
+                        {story.cat}
+                    </div>
+                    <h3 className="text-xl font-bold leading-tight group-hover:text-blue-700 transition mb-2">
+                        {story.title}
+                    </h3>
+                    <p className="text-xs text-slate-400 font-mono">By {story.author}</p>
+                </div>
+            ))}
+
+            <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 mt-auto">
+                <h4 className="font-bold text-slate-900 mb-2">Join the Editorial Board</h4>
+                <p className="text-sm text-slate-600 mb-4">We are looking for writers, researchers, and photographers.</p>
+                <Link to="/club" className="text-sm font-black text-blue-600 hover:underline">Apply Now →</Link>
+            </div>
+        </div>
       </div>
-    </div>
+
+      {/* SECTION 3: THE FEED (Grid Layout) */}
+      <div className="border-t border-black pt-12">
+          <div className="flex items-center gap-2 mb-12">
+              <Activity className="w-6 h-6 text-blue-600" />
+              <h2 className="text-3xl font-black font-serif">Recent Dispatches</h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-x-8 gap-y-12">
+              {[
+                  { title: "DNA Extraction: A Strawberry Experiment", desc: "A step-by-step breakdown of cell lysis using household items.", icon: <Microscope className="w-5 h-5"/> },
+                  { title: "The Physiology of Caffeine Crash", desc: "What happens to your adenosine receptors when the coffee wears off?", icon: <FlaskConical className="w-5 h-5"/> },
+                  { title: "AI in Medicine: Friend or Foe?", desc: "Analyzing the role of Large Language Models in patient triage.", icon: <Cpu className="w-5 h-5"/> },
+                  { title: "Lab Safety 101: The Checklist", desc: "Essential protocols before you touch a single beaker.", icon: <Activity className="w-5 h-5"/> },
+                  { title: "Student Stress & Cortisol Levels", desc: "A proposed study for the upcoming Spring term.", icon: <TrendingUp className="w-5 h-5"/> },
+                  { title: "Club Update: New 3D Printer Arrival", desc: "Unboxing and calibration of the new engineering unit.", icon: <Globe className="w-5 h-5"/> },
+              ].map((item, i) => (
+                  <div key={i} className="group cursor-pointer flex flex-col h-full">
+                      <div className="bg-slate-50 h-48 w-full rounded-lg mb-6 flex items-center justify-center text-slate-300 border border-slate-100 group-hover:border-blue-200 transition">
+                          {item.icon}
+                      </div>
+                      <h3 className="text-xl font-bold mb-3 leading-snug group-hover:text-blue-700 transition">{item.title}</h3>
+                      <p className="text-slate-600 leading-relaxed text-sm mb-4 flex-grow">{item.desc}</p>
+                      <div className="flex items-center justify-between border-t border-slate-100 pt-4 mt-auto">
+                          <span className="text-xs font-bold text-slate-400 uppercase">Read Story</span>
+                          <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-blue-600 transition" />
+                      </div>
+                  </div>
+              ))}
+          </div>
+      </div>
+
+    </main>
   );
 };
+
+// --- CLUB HQ PAGE (The "Behind the Scenes" Portal) ---
+const ClubHQ = () => (
+  <div className="pt-24 pb-20 px-6 max-w-6xl mx-auto">
+    
+    {/* HERO */}
+    <div className="text-center mb-16">
+        <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 inline-block">Official Club Portal</span>
+        <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight text-slate-900">More than a Website.<br/>We are a Movement.</h1>
+        <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            The <strong>VitalSigns Review</strong> is the public face of the <strong>VitalSigns Biomedical Club</strong>. We are a student-led organization dedicated to practical science, medical innovation, and clinical skills.
+        </p>
+    </div>
+
+    {/* THE TWO PATHS */}
+    <div className="grid md:grid-cols-2 gap-8 mb-20">
+        
+        {/* PATH 1: LOCAL JOIN */}
+        <div className="bg-slate-900 text-white p-10 rounded-2xl relative overflow-hidden group shadow-2xl">
+            <div className="relative z-10">
+                <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mb-8 backdrop-blur-sm border border-white/10">
+                    <Users className="w-7 h-7 text-white" />
+                </div>
+                <h3 className="text-3xl font-black mb-4">Join Our Chapter</h3>
+                <p className="text-slate-300 mb-8 text-lg leading-relaxed">
+                    Are you a student at our school? Apply to become a core member, researcher, or media lead.
+                </p>
+                <button className="bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-blue-600 hover:text-white transition w-full md:w-auto shadow-lg">
+                    Open Application Form
+                </button>
+            </div>
+            {/* Decorative */}
+            <Activity className="absolute -bottom-10 -right-10 w-64 h-64 text-white/5 group-hover:scale-110 transition duration-500" />
+        </div>
+
+        {/* PATH 2: EXPANSION */}
+        <div className="bg-blue-600 text-white p-10 rounded-2xl relative overflow-hidden group shadow-2xl shadow-blue-200">
+            <div className="relative z-10">
+                <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-8 backdrop-blur-sm border border-white/20">
+                    <Globe className="w-7 h-7 text-white" />
+                </div>
+                <h3 className="text-3xl font-black mb-4">Start a Chapter</h3>
+                <p className="text-blue-100 mb-8 text-lg leading-relaxed">
+                    Want to bring VitalSigns to your school? We provide the branding, the research kits, and the website template.
+                </p>
+                <button className="bg-black text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-blue-600 transition w-full md:w-auto shadow-lg">
+                    Request Founder Kit
+                </button>
+            </div>
+             {/* Decorative */}
+             <Globe className="absolute -bottom-10 -right-10 w-64 h-64 text-white/10 group-hover:rotate-12 transition duration-500" />
+        </div>
+    </div>
+
+    {/* THE BOARD */}
+    <div className="border-t-2 border-slate-100 pt-16">
+        <h2 className="text-3xl font-black mb-12 text-center">Meet the Executive Board</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+             {[
+                { n: "Aslan Yıldız", r: "President", desc: "Leading the vision and research direction." },
+                { n: "Shiekh Daiyan", r: "Vice President", desc: "Managing daily operations and logistics." },
+                { n: "Kaiyaan Akbar", r: "Club Manager", desc: "Ensuring smooth execution of all projects." },
+                { n: "Abdelrahman Kurdi", r: "Safety Officer", desc: "Maintains lab safety protocols." },
+                { n: "Abdalrahman", r: "Head of Digital", desc: "Manages the VitalSigns Review Platform." },
+                { n: "Faculty Advisors", r: "Supervision", desc: "Ms. Maymouna, Ms. Ayse, Ms. Marwa" },
+             ].map((m, i) => (
+                 <div key={i} className="bg-white p-8 rounded-xl border border-slate-200 hover:border-blue-600 hover:shadow-lg transition group">
+                     <div className="text-xs font-bold text-blue-600 uppercase mb-3 tracking-widest">{m.r}</div>
+                     <h3 className="text-2xl font-black font-serif mb-2 group-hover:text-blue-700 transition">{m.n}</h3>
+                     <p className="text-slate-500 text-sm">{m.desc}</p>
+                 </div>
+             ))}
+        </div>
+    </div>
+  </div>
+);
 
 const Footer = () => (
-  <footer className="border-t border-white/5 bg-black py-12 text-center text-neutral-500 mt-auto">
-    <div className="flex justify-center items-center gap-2 mb-4"><Dna className="w-6 h-6 text-red-600" /><span className="text-white font-bold text-xl tracking-tight">VitalSigns</span></div>
-    <p className="text-sm">© 2026 VitalSigns Biomedical. Innovation in Health.</p>
+  <footer className="bg-slate-50 border-t border-slate-200 py-16">
+    <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-start gap-12">
+        <div className="max-w-xs">
+            <div className="flex items-center gap-2 mb-4">
+                 <div className="bg-black text-white px-1.5 py-0.5 font-black text-sm italic transform -skew-x-12">VS.</div>
+                 <span className="font-serif font-black text-lg">VitalSigns<span className="text-slate-400 italic font-normal">Review</span></span>
+            </div>
+            <p className="text-xs text-slate-500 leading-relaxed">
+                A student-led publication dedicated to the advancement of biomedical sciences and clinical application. Produced by the VitalSigns Club.
+            </p>
+        </div>
+        <div className="flex gap-12 text-sm font-bold text-slate-600">
+            <div className="flex flex-col gap-3">
+                <span className="text-black uppercase tracking-widest text-xs font-black">Journal</span>
+                <Link to="/" className="hover:text-blue-600">Top Stories</Link>
+                <a href="#" className="hover:text-blue-600">Archives</a>
+                <a href="#" className="hover:text-blue-600">Authors</a>
+            </div>
+            <div className="flex flex-col gap-3">
+                <span className="text-black uppercase tracking-widest text-xs font-black">Club</span>
+                <Link to="/club" className="hover:text-blue-600">Membership</Link>
+                <a href="#" className="hover:text-blue-600">Contact Faculty</a>
+                <a href="#" className="hover:text-blue-600">Instagram</a>
+            </div>
+        </div>
+    </div>
+    <div className="max-w-6xl mx-auto px-6 mt-16 pt-8 border-t border-slate-200 text-[10px] text-slate-400 uppercase tracking-widest flex justify-between">
+        <span>© 2026 VitalSigns Biomedical Unit</span>
+        <span>Science for Everyone</span>
+    </div>
   </footer>
 );
 
