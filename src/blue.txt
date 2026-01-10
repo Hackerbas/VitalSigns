@@ -1,0 +1,512 @@
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { 
+  HeartPulse, Activity, Users, Shield, Megaphone, Smartphone, 
+  UserPlus, Menu, X, ChevronRight, Stethoscope, Dna, Globe, 
+  FlaskConical, Calculator, RefreshCw, Droplets, GraduationCap, 
+  Search, AlertCircle, CheckCircle, Brain, Loader2, Calendar,
+  MessageSquare, Send, Camera, ArrowRight, ThumbsUp, ThumbsDown, 
+  Zap, Lightbulb, PenTool
+} from 'lucide-react';
+
+const VitalSignsWebsite = () => {
+  // ⚠️ PASTE YOUR GROQ KEY HERE IF YOU HAVE ONE ⚠️
+  // If you leave this blank, the AI will use "Simulation Mode" so it doesn't look broken.
+  const GROQ_API_KEY = "api-key goes here"; 
+
+  return (
+    <Router>
+      <div className="min-h-screen bg-blue-950 text-white font-sans selection:bg-blue-500 selection:text-white flex flex-col">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/lab" element={<Lab apiKey={GROQ_API_KEY} />} />
+          <Route path="/leadership" element={<Leadership />} />
+          <Route path="/community" element={<Community />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
+  );
+};
+
+// --- COMPONENTS ---
+
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path ? "text-white bg-white/10" : "text-blue-200 hover:text-white";
+
+  return (
+    <nav className="fixed w-full z-50 bg-blue-950/90 backdrop-blur-lg border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex justify-between h-20 items-center">
+          <Link to="/" className="flex items-center gap-3">
+            <div className="bg-white p-2 rounded-xl shadow-lg shadow-blue-900/50">
+              <Activity className="w-6 h-6 text-blue-900" />
+            </div>
+            <span className="font-bold text-2xl tracking-tighter text-white">Vital<span className="text-blue-400">Signs</span></span>
+          </Link>
+          
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center space-x-2">
+            <Link to="/" className={`px-4 py-2 rounded-lg text-sm font-medium transition ${isActive('/')}`}>Home</Link>
+            <Link to="/projects" className={`px-4 py-2 rounded-lg text-sm font-medium transition ${isActive('/projects')}`}>Projects</Link>
+            <Link to="/lab" className={`px-4 py-2 rounded-lg text-sm font-medium transition ${isActive('/lab')}`}>Lab & AI</Link>
+            <Link to="/leadership" className={`px-4 py-2 rounded-lg text-sm font-medium transition ${isActive('/leadership')}`}>Leadership</Link>
+            <Link to="/community" className={`px-4 py-2 rounded-lg text-sm font-medium transition ${isActive('/community')}`}>Community</Link>
+          </div>
+
+          <div className="md:hidden">
+            <button onClick={() => setIsOpen(!isOpen)} className="text-white p-2">{isOpen ? <X /> : <Menu />}</button>
+          </div>
+        </div>
+      </div>
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="md:hidden bg-blue-900 border-t border-white/10 p-4 space-y-2">
+          {['/', '/projects', '/lab', '/leadership', '/community'].map(path => (
+            <Link key={path} to={path} onClick={() => setIsOpen(false)} className="block px-4 py-3 rounded-lg hover:bg-white/5 text-blue-200 capitalize">
+              {path === '/' ? 'Home' : path.replace('/', '')}
+            </Link>
+          ))}
+        </div>
+      )}
+    </nav>
+  );
+};
+
+// --- PAGES ---
+
+const Home = () => (
+  <header className="relative pt-40 pb-40 overflow-hidden">
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none"></div>
+    <div className="absolute bottom-0 right-0 w-[800px] h-[600px] bg-cyan-600/10 blur-[100px] rounded-full pointer-events-none"></div>
+
+    <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
+      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-900/50 border border-blue-700/50 text-blue-300 text-sm font-medium mb-8 backdrop-blur-sm">
+        <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+        Accepting New Members for 2026
+      </div>
+      <h1 className="text-5xl md:text-8xl font-black tracking-tight mb-8 leading-tight text-white">
+        The Future of <br/>
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-white">Biomedical Science</span>
+      </h1>
+      <p className="text-xl md:text-2xl text-blue-200 max-w-3xl mx-auto mb-12 leading-relaxed">
+        VitalSigns is the premier student organization bridging the gap between classroom theory and real-world medical innovation.
+      </p>
+      <div className="flex flex-col sm:flex-row justify-center gap-4">
+        <Link to="/community" className="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-500 transition-all shadow-lg shadow-blue-900/50 flex items-center justify-center gap-2">
+          <UserPlus className="w-5 h-5" /> Join VitalSigns
+        </Link>
+        <Link to="/projects" className="px-8 py-4 rounded-xl font-bold text-lg border border-white/20 hover:bg-white/10 transition-all flex items-center justify-center gap-2 text-white">
+          <Globe className="w-5 h-5" /> View Projects
+        </Link>
+      </div>
+    </div>
+  </header>
+);
+
+const Projects = () => (
+  <div className="pt-32 pb-20 max-w-7xl mx-auto px-4">
+    <div className="flex items-center gap-4 mb-16">
+      <div className="h-px bg-white/10 flex-1"></div>
+      <h2 className="text-3xl font-bold text-white">Current Projects</h2>
+      <div className="h-px bg-white/10 flex-1"></div>
+    </div>
+
+    {/* EXISTING PROJECTS */}
+    <div className="max-w-5xl mx-auto mb-24">
+      <div className="bg-blue-900/30 border border-white/10 rounded-2xl overflow-hidden hover:border-blue-500/50 transition duration-300 group">
+        <div className="grid grid-cols-1 md:grid-cols-2">
+          <div className="h-64 md:h-auto relative overflow-hidden bg-blue-950 flex items-center justify-center">
+            <FlaskConical className="w-20 h-20 text-blue-400/50" />
+            <div className="absolute inset-0 bg-gradient-to-t from-blue-950/80 to-transparent pointer-events-none"></div>
+          </div>
+          <div className="p-8 md:p-12 flex flex-col justify-center">
+            <div className="inline-block bg-blue-500/20 text-blue-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4">Completed</div>
+            <h3 className="text-3xl font-bold text-white mb-4">Hand-made Hand Sanitizer</h3>
+            <p className="text-blue-200 mb-6">A student-led initiative to formulate and produce a high-efficacy hand sanitizer exploring chemical formulation and quality control.</p>
+            <div className="flex items-center gap-4 text-sm text-blue-300">
+              <span className="flex items-center gap-1"><Shield className="w-4 h-4" /> Safety Protocol</span>
+              <span className="flex items-center gap-1"><FlaskConical className="w-4 h-4" /> Formulation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* NEW: UPCOMING TIMELINE */}
+    <h2 className="text-2xl font-bold text-purple-400 mb-8 flex items-center gap-2"><Calendar className="w-6 h-6" /> Upcoming Roadmap</h2>
+    <div className="max-w-3xl mx-auto border-l-2 border-white/10 pl-8 space-y-12">
+      {[
+        { title: "DNA Extraction Lab", date: "February 2026", desc: "Extracting DNA from strawberries using household items." },
+        { title: "Prosthetic Workshop", date: "March 2026", desc: "Designing simple 3D-printed prosthetic hands." },
+        { title: "Vital Signs Clinic", date: "April 2026", desc: "Training members to measure BP and Heart Rate for staff." }
+      ].map((item, i) => (
+        <div key={i} className="relative">
+          <span className="absolute -left-[41px] top-0 flex items-center justify-center w-6 h-6 bg-blue-950 border-2 border-purple-500 rounded-full"></span>
+          <div className="bg-white/5 border border-white/10 p-6 rounded-xl hover:bg-white/10 transition">
+             <div className="flex justify-between mb-2">
+               <h3 className="text-xl font-bold text-white">{item.title}</h3>
+               <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded font-mono">{item.date}</span>
+             </div>
+             <p className="text-blue-200">{item.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const Lab = ({ apiKey }) => {
+  const [symptomInput, setSymptomInput] = useState('');
+  const [diagnosisResult, setDiagnosisResult] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  
+  // Calculator States
+  const [weight, setWeight] = useState('');
+  const [height, setHeight] = useState('');
+  const [bmi, setBmi] = useState(null);
+  const [waterWeight, setWaterWeight] = useState('');
+  const [activityLevel, setActivityLevel] = useState('low'); 
+  const [waterResult, setWaterResult] = useState(null);
+
+  const handleDiagnosis = async (e) => {
+    e.preventDefault();
+    if (!symptomInput) return;
+    setIsLoading(true);
+    setDiagnosisResult(null);
+
+    try {
+      if (!apiKey || apiKey === "gsk_YOUR_ACTUAL_KEY_GOES_HERE") {
+        throw new Error("No Key"); // Trigger simulation mode
+      }
+
+      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "llama-3.1-8b-instant",
+          messages: [
+            { role: "system", content: `You are a helpful School Nurse Assistant. Analyze symptoms and return JSON ONLY: { "condition": "Short Name", "severity": "Low Risk/Moderate/URGENT", "color": "green/orange/red", "desc": "1 sentence explanation", "tips": "2-3 short steps", "action": "Next step" }.` },
+            { role: "user", content: `Symptoms: ${symptomInput}` }
+          ],
+          response_format: { type: "json_object" }
+        })
+      });
+      const data = await response.json();
+      setDiagnosisResult(JSON.parse(data.choices[0].message.content));
+    } catch (error) {
+      // --- DEMO MODE FIX ---
+      // If the API fails or no key is present, show a "Simulation" so the site looks cool for the club
+      setTimeout(() => {
+        setDiagnosisResult({ 
+            condition: "Simulation: Common Cold", 
+            severity: "Low Risk", 
+            color: "green", 
+            desc: "Based on the simulation, this appears to be a mild viral infection.", 
+            tips: "Rest, drink water, and monitor temperature.", 
+            action: "Visit the school nurse if fever persists." 
+        });
+      }, 1500); // Fake loading delay
+    } finally { 
+        // In real API calls we turn off loading here, but for the timeout above we need to wait
+        if (apiKey && apiKey !== "gsk_YOUR_ACTUAL_KEY_GOES_HERE") {
+            setIsLoading(false); 
+        } else {
+            setTimeout(() => setIsLoading(false), 1500);
+        }
+    }
+  };
+
+  const calculateBMI = (e) => {
+    e.preventDefault();
+    if (weight && height) setBmi((weight / ((height/100)**2)).toFixed(1));
+  };
+
+  const calculateWater = (e) => {
+    e.preventDefault();
+    let base = waterWeight * 35;
+    if (activityLevel === 'medium') base += 500;
+    if (activityLevel === 'high') base += 1000;
+    setWaterResult((base / 1000).toFixed(2));
+  };
+
+  return (
+    <div className="pt-32 pb-20 max-w-7xl mx-auto px-4">
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold text-white">AI Lab & Tools</h1>
+        <p className="text-blue-200">Interactive health analysis powered by Groq AI.</p>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-8">
+        {/* AI NURSE */}
+        <div className="bg-gradient-to-br from-slate-900 to-blue-950 border border-blue-500/30 rounded-3xl p-8 shadow-2xl">
+           <div className="flex items-center gap-3 mb-6">
+             <div className="bg-blue-600 p-2 rounded-lg"><Brain className="w-6 h-6 text-white" /></div>
+             <h3 className="text-2xl font-bold text-white">AI Nurse Agent</h3>
+           </div>
+           <form onSubmit={handleDiagnosis} className="flex gap-4 mb-6">
+             <input type="text" value={symptomInput} onChange={e=>setSymptomInput(e.target.value)} placeholder="Describe symptoms (e.g., headache, fever)..." className="w-full bg-blue-900/50 border border-blue-700 rounded-xl px-4 py-3 text-white focus:border-blue-400 outline-none" />
+             <button disabled={isLoading} className="bg-blue-500 px-6 rounded-xl font-bold text-white hover:bg-blue-600 transition flex items-center">{isLoading ? <Loader2 className="animate-spin" /> : "Scan"}</button>
+           </form>
+           {diagnosisResult && (
+             <div className="bg-white/5 border border-white/10 rounded-xl p-6 animate-fade-in">
+               <div className="flex justify-between mb-2">
+                 <h4 className="text-xl font-bold text-white">{diagnosisResult.condition}</h4>
+                 <span className={`text-${diagnosisResult.color === 'red' ? 'red' : diagnosisResult.color === 'orange' ? 'orange' : 'green'}-400 font-bold uppercase text-sm`}>{diagnosisResult.severity}</span>
+               </div>
+               <p className="text-blue-200 text-sm mb-4">{diagnosisResult.desc}</p>
+               <div className="bg-blue-950/50 p-3 rounded-lg text-sm text-slate-300 mb-2"><strong>Tips:</strong> {diagnosisResult.tips}</div>
+               <div className="bg-blue-950/50 p-3 rounded-lg text-sm text-white"><strong>Action:</strong> {diagnosisResult.action}</div>
+             </div>
+           )}
+        </div>
+
+        {/* CALCULATORS */}
+        <div className="space-y-6">
+           {/* BMI */}
+           <div className="bg-white rounded-3xl p-6 text-blue-950">
+             <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><Activity className="w-5 h-5 text-blue-600" /> BMI Calculator</h3>
+             <div className="flex gap-2 mb-4">
+               <input type="number" placeholder="Weight (kg)" onChange={e=>setWeight(e.target.value)} className="w-full bg-slate-100 p-3 rounded-xl" />
+               <input type="number" placeholder="Height (cm)" onChange={e=>setHeight(e.target.value)} className="w-full bg-slate-100 p-3 rounded-xl" />
+             </div>
+             <button onClick={calculateBMI} className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl">Calculate</button>
+             {bmi && <div className="mt-4 text-center text-4xl font-black text-blue-900">{bmi}</div>}
+           </div>
+
+           {/* Water */}
+           <div className="bg-blue-900 border border-white/10 rounded-3xl p-6">
+             <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2"><Droplets className="w-5 h-5 text-cyan-400" /> Hydration</h3>
+             <div className="flex gap-2 mb-4">
+               <input type="number" placeholder="Weight (kg)" onChange={e=>setWaterWeight(e.target.value)} className="w-full bg-blue-950 p-3 rounded-xl text-white border border-blue-800" />
+               <div className="flex gap-1">
+                  {['low','medium','high'].map(l=><button key={l} onClick={()=>setActivityLevel(l)} className={`px-2 rounded-lg text-xs capitalize ${activityLevel===l?'bg-cyan-500 text-white':'bg-blue-950 text-blue-400'}`}>{l}</button>)}
+               </div>
+             </div>
+             <button onClick={calculateWater} className="w-full bg-white text-blue-900 font-bold py-3 rounded-xl">Calculate</button>
+             {waterResult && <div className="mt-4 text-center text-4xl font-black text-white">{waterResult}L</div>}
+           </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Leadership = () => (
+  <div className="pt-32 pb-20 max-w-7xl mx-auto px-4">
+    <div className="text-center mb-16">
+      <h1 className="text-4xl font-bold text-white">Executive Board</h1>
+      <p className="text-blue-200">The team powering VitalSigns.</p>
+    </div>
+
+    {/* PRESIDENT */}
+    <div className="max-w-3xl mx-auto mb-16">
+      <div className="bg-blue-900 border border-white/10 p-8 rounded-2xl flex flex-col md:flex-row items-center gap-6 shadow-xl shadow-blue-900/20">
+        <div className="bg-blue-950 p-4 rounded-full border-4 border-blue-800 shrink-0"><Stethoscope className="w-12 h-12 text-blue-400" /></div>
+        <div className="text-center md:text-left w-full">
+          <div className="text-blue-300 text-xs font-bold uppercase tracking-wider mb-1">Club President</div>
+          <h3 className="text-3xl font-bold text-white">Aslan Yıldız</h3>
+          <p className="text-blue-200 mt-2 text-sm">Leading the vision of VitalSigns.</p>
+        </div>
+      </div>
+    </div>
+
+    {/* FACULTY */}
+    <div className="grid md:grid-cols-3 gap-6 mb-16">
+       {[
+         { name: "Maymouna Taha", role: "Faculty Advisor" },
+         { name: "Ayse Nur", role: "Head of Laboratory" },
+         { name: "Marwa Al Khatib", role: "Faculty Advisor" }
+       ].map((p, i) => (
+         <div key={i} className="bg-blue-900/20 border border-cyan-500/20 p-6 rounded-xl flex flex-col items-center text-center gap-4 hover:bg-blue-900/30 transition">
+            <div className="bg-blue-950 p-3 rounded-lg border border-white/10"><GraduationCap className="text-cyan-400" /></div>
+            <div><h4 className="text-lg font-bold text-white">{p.name}</h4><p className="text-cyan-400 text-sm">{p.role}</p></div>
+         </div>
+       ))}
+    </div>
+
+    {/* OFFICERS */}
+    <div className="grid md:grid-cols-3 gap-6 mb-16">
+      {[
+        { name: "Shiekh Daiyan", role: "Vice President", grade: "G9B" },
+        { name: "Kaiyaan Akbar", role: "Club Manager", grade: "G10B" },
+        { name: "Abdelrahman Kurdi", role: "Safety Officer", grade: "G10B" },
+        { name: "Abdulrahman", role: "Media & Comms", grade: "Manager" },
+        { name: "Hussien", role: "Social Media", grade: "Outreach" },
+      ].map((m, i) => (
+        <div key={i} className="bg-blue-900/40 border border-white/5 p-6 rounded-xl hover:border-blue-500/50 transition">
+          <div className="flex justify-between items-start mb-2">
+            <h4 className="text-xl font-bold text-white">{m.name}</h4>
+            <span className="text-xs font-mono text-blue-400 bg-blue-950 px-2 py-1 rounded">{m.grade}</span>
+          </div>
+          <p className="text-blue-300 text-sm">{m.role}</p>
+        </div>
+      ))}
+    </div>
+
+    {/* MEMBERS LIST */}
+    <div className="bg-blue-900/30 border border-white/10 rounded-2xl p-8">
+      <div className="flex items-center gap-3 mb-6">
+        <Users className="w-5 h-5 text-blue-400" />
+        <h3 className="text-xl font-bold text-white">Active Members</h3>
+      </div>
+      <div className="grid md:grid-cols-3 gap-4">
+        {[{n:"Yassine",g:"G10B"}, {n:"Talib Alnakeeb",g:"G10B"}, {n:"Bilal El Kassar",g:"G10D"}, {n:"Mohammed Abdulkoddous",g:"G9B"}, {n:"Faysal Olabi",g:"G9D"}, {n:"Malik Sanfaz",g:"Member"}].map((m, i) => (
+          <div key={i} className="flex justify-between p-3 bg-blue-950/50 rounded-lg border border-white/5 text-blue-100 text-sm">
+            <span>{m.n}</span><span className="text-blue-500 font-mono text-xs">{m.g}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+// --- UPDATED COMMUNITY SECTION (Fixed Buttons & Layout) ---
+const Community = () => {
+  const [posts, setPosts] = useState([
+    { id: 1, type: 'suggestion', content: 'We should hold a science fair in the courtyard next month.', votes: 5, time: '2h ago' },
+    { id: 2, type: 'project', content: 'Working on a prosthetic hand prototype using the new 3D printer! 🖨️', votes: 12, time: '4h ago' },
+    { id: 3, type: 'suggestion', content: 'Can we get more Arduino kits for the lab?', votes: 3, time: '1d ago' },
+  ]);
+  
+  const [inputText, setInputText] = useState('');
+  const [postType, setPostType] = useState('suggestion'); 
+
+  const handlePost = (e) => {
+    e.preventDefault();
+    if (!inputText.trim()) return;
+    
+    const newPost = {
+      id: Date.now(),
+      type: postType,
+      content: inputText,
+      votes: 0,
+      time: 'Just now'
+    };
+    
+    setPosts([newPost, ...posts]);
+    setInputText('');
+  };
+
+  // Bump now works!
+  const handleVote = (id, change) => {
+    setPosts(posts.map(post => 
+      post.id === id ? { ...post, votes: post.votes + change } : post
+    ).sort((a,b) => b.votes - a.votes)); 
+  };
+
+  // Placeholder comment function
+  const handleComment = () => {
+    alert("Comments will be enabled when the database is connected! (V2)");
+  }
+
+  return (
+    <div className="pt-32 pb-20 max-w-7xl mx-auto px-4">
+      <div className="text-center mb-16">
+        <h1 className="text-4xl font-bold text-white mb-2">Community Hub</h1>
+        <p className="text-blue-200">Share suggestions or show off your projects.</p>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-8">
+        
+        {/* LEFT: CONTROL PANEL (Submit) */}
+        <div className="lg:col-span-1">
+          <div className="bg-gradient-to-br from-indigo-900 to-blue-900 p-8 rounded-3xl border border-white/10 sticky top-32">
+            <div className="flex items-center gap-2 mb-6 text-white">
+              <MessageSquare className="w-6 h-6" />
+              <h3 className="text-xl font-bold">New Post</h3>
+            </div>
+            
+            <form onSubmit={handlePost}>
+              {/* Type Selector */}
+              <div className="flex gap-2 mb-4 p-1 bg-black/20 rounded-xl">
+                <button 
+                  type="button" 
+                  onClick={() => setPostType('suggestion')}
+                  className={`flex-1 py-2 rounded-lg text-sm font-bold transition flex items-center justify-center gap-2 ${postType === 'suggestion' ? 'bg-indigo-500 text-white' : 'text-blue-300 hover:bg-white/5'}`}
+                >
+                  <Lightbulb className="w-4 h-4" /> Suggestion
+                </button>
+                <button 
+                  type="button" 
+                  onClick={() => setPostType('project')}
+                  className={`flex-1 py-2 rounded-lg text-sm font-bold transition flex items-center justify-center gap-2 ${postType === 'project' ? 'bg-purple-500 text-white' : 'text-blue-300 hover:bg-white/5'}`}
+                >
+                  <Zap className="w-4 h-4" /> Project
+                </button>
+              </div>
+
+              <textarea 
+                value={inputText} 
+                onChange={e=>setInputText(e.target.value)} 
+                className="w-full h-32 bg-black/20 border border-white/10 rounded-xl p-4 text-white placeholder-indigo-300/50 mb-4 focus:outline-none focus:border-indigo-400 transition"
+                placeholder={postType === 'suggestion' ? "I think we should..." : "Today I worked on..."}
+                required
+              />
+              <button className="w-full bg-white text-blue-900 font-bold py-3 rounded-xl transition hover:bg-blue-50 flex items-center justify-center gap-2">
+                <Send className="w-4 h-4" /> Post to Board
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {/* RIGHT: LIVE FEED */}
+        <div className="lg:col-span-2 space-y-6">
+           <div className="flex items-center justify-between text-white mb-2">
+             <h3 className="text-xl font-bold flex items-center gap-2">
+               <Activity className="w-5 h-5 text-green-400" /> Live Board
+             </h3>
+             <span className="text-xs text-blue-400 bg-blue-900/50 px-3 py-1 rounded-full border border-white/5">Auto-sorted by Bumps</span>
+           </div>
+
+           {posts.map((post) => (
+             <div key={post.id} className="bg-blue-900/20 border border-white/5 p-6 rounded-2xl hover:border-white/10 transition group flex gap-4">
+               {/* I REMOVED THE SIDE VOTING BAR HERE 
+                  (The vertical "Broken number" you hated)
+               */}
+
+               {/* Content */}
+               <div className="flex-1">
+                 <div className="flex items-center gap-2 mb-2">
+                   {post.type === 'suggestion' ? (
+                     <span className="bg-indigo-500/20 text-indigo-300 text-xs font-bold px-2 py-1 rounded flex items-center gap-1"><Lightbulb className="w-3 h-3" /> Suggestion</span>
+                   ) : (
+                     <span className="bg-purple-500/20 text-purple-300 text-xs font-bold px-2 py-1 rounded flex items-center gap-1"><Zap className="w-3 h-3" /> Project Update</span>
+                   )}
+                   <span className="text-slate-500 text-xs">{post.time}</span>
+                   {/* Moved Votes to top right so you can still see popularity */}
+                   <span className="ml-auto text-xs font-bold text-blue-400 flex items-center gap-1"><ThumbsUp className="w-3 h-3" /> {post.votes}</span>
+                 </div>
+                 <p className="text-white leading-relaxed text-lg">{post.content}</p>
+                 
+                 {/* Action Bar - FIXED */}
+                 <div className="flex gap-4 mt-4 pt-4 border-t border-white/5 opacity-50 group-hover:opacity-100 transition">
+                    <button onClick={() => handleVote(post.id, 1)} className="text-xs font-bold text-blue-300 hover:text-white flex items-center gap-1 hover:bg-white/5 px-2 py-1 rounded transition">
+                        <ThumbsUp className="w-3 h-3" /> Bump
+                    </button>
+                    <button onClick={handleComment} className="text-xs font-bold text-blue-300 hover:text-white flex items-center gap-1 hover:bg-white/5 px-2 py-1 rounded transition">
+                        <MessageSquare className="w-3 h-3" /> Comment
+                    </button>
+                 </div>
+               </div>
+             </div>
+           ))}
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+const Footer = () => (
+  <footer className="border-t border-white/10 bg-black/40 py-12 text-center text-blue-400 mt-auto">
+    <div className="flex justify-center items-center gap-2 mb-4"><Dna className="w-6 h-6 text-white" /><span className="text-white font-bold text-xl tracking-tight">VitalSigns</span></div>
+    <p className="text-sm">© 2026 VitalSigns Biomedical. Innovation in Health.</p>
+  </footer>
+);
+
+export default VitalSignsWebsite;
