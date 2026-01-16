@@ -1,53 +1,57 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { 
-  Menu, X, Activity, Globe, Users, TrendingUp, 
-  ArrowRight, FileText, ChevronRight, Bookmark
+  Menu, X, ArrowUpRight, FlaskConical, Users, 
+  Calendar, FileText, Microscope, ChevronRight, 
+  Activity, ExternalLink
 } from 'lucide-react';
 
 const VitalSignsWebsite = () => {
   return (
     <Router>
-      {/* THEME: "The Sunday Paper" - Off-white, sharp borders, high contrast */}
-      <div className="min-h-screen bg-[#F4F4F0] text-slate-900 font-serif selection:bg-yellow-200 selection:text-black flex flex-col">
+      {/* THEME: "The Lab Notebook" - Graph paper, Swiss typography, Bento Grid */}
+      <div className="min-h-screen bg-[#FDFDFD] text-[#1a1a1a] font-sans selection:bg-orange-500 selection:text-white flex flex-col relative overflow-x-hidden">
+        
+        {/* CSS GRAPH PAPER BACKGROUND */}
+        <div className="fixed inset-0 pointer-events-none opacity-[0.03]" 
+             style={{ 
+               backgroundImage: `linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)`, 
+               backgroundSize: '20px 20px' 
+             }}>
+        </div>
+
         <Navbar />
-        <Routes>
-          <Route path="/" element={<JournalHome />} />
-          <Route path="/club" element={<ClubHQ />} />
-        </Routes>
+        
+        <div className="relative z-10">
+          <Routes>
+            <Route path="/" element={<LabHome />} />
+            <Route path="/club" element={<ClubHQ />} />
+          </Routes>
+        </div>
+        
         <Footer />
       </div>
     </Router>
   );
 };
 
-// --- NAVBAR: Looks like a newspaper header ---
+// --- NAVBAR: Minimal "Folder Tab" Style ---
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed w-full z-50 bg-[#F4F4F0] border-b-4 border-black">
-      <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-        {/* MASTHEAD */}
-        <Link to="/" className="flex items-center gap-3">
-           <div className="bg-black text-white w-10 h-10 flex items-center justify-center font-black text-xl border-2 border-transparent hover:bg-white hover:text-black hover:border-black transition">
-             VS
+    <nav className="sticky top-0 z-50 bg-[#FDFDFD]/80 backdrop-blur-md border-b border-slate-200">
+      <div className="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+        <Link to="/" className="flex items-center gap-2 group">
+           <div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center text-white font-bold italic border-2 border-transparent group-hover:border-black group-hover:bg-transparent group-hover:text-black transition">
+             V
            </div>
-           <div className="flex flex-col leading-none">
-             <span className="text-3xl font-black tracking-tighter uppercase">VitalSigns.</span>
-             <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-slate-500">The Student Research Journal</span>
-           </div>
+           <span className="font-bold tracking-tight text-lg">VitalSigns<span className="text-slate-400 font-normal">.Unit</span></span>
         </Link>
         
-        {/* NAV LINKS (Desktop) */}
-        <div className="hidden md:flex items-center gap-8 font-sans font-bold text-xs uppercase tracking-widest">
-          <a href="#" className="hover:bg-black hover:text-white px-2 py-1 transition">Biology</a>
-          <a href="#" className="hover:bg-black hover:text-white px-2 py-1 transition">Chemistry</a>
-          <a href="#" className="hover:bg-black hover:text-white px-2 py-1 transition">Tech</a>
-          
-          <Link to="/club" className="border-2 border-black px-5 py-2 hover:bg-black hover:text-white transition shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]">
-            Join The Club
-          </Link>
+        <div className="hidden md:flex items-center gap-1 bg-slate-100 p-1 rounded-full border border-slate-200">
+          <Link to="/" className="px-4 py-1.5 rounded-full text-sm font-medium hover:bg-white hover:shadow-sm transition">Journal</Link>
+          <Link to="/club" className="px-4 py-1.5 rounded-full text-sm font-medium hover:bg-white hover:shadow-sm transition text-orange-600">Club HQ</Link>
         </div>
 
         <button onClick={() => setIsOpen(!isOpen)} className="md:hidden">
@@ -57,171 +61,173 @@ const Navbar = () => {
       
        {/* Mobile Menu */}
        {isOpen && (
-        <div className="md:hidden bg-[#F4F4F0] border-b-4 border-black p-6 space-y-6 font-bold text-xl border-t-2">
-           <Link to="/" onClick={()=>setIsOpen(false)} className="block">Latest Stories</Link>
-           <Link to="/club" onClick={()=>setIsOpen(false)} className="block text-blue-700">Club HQ</Link>
+        <div className="md:hidden bg-white border-b border-slate-200 p-6 space-y-4">
+           <Link to="/" onClick={()=>setIsOpen(false)} className="block font-bold text-xl">Journal</Link>
+           <Link to="/club" onClick={()=>setIsOpen(false)} className="block font-bold text-xl text-orange-600">Club HQ</Link>
         </div>
       )}
     </nav>
   );
 };
 
-// --- MAIN PAGE: NEWSPAPER STYLE ---
-const JournalHome = () => {
+// --- HOME: BENTO GRID LAYOUT ---
+const LabHome = () => {
   return (
-    <main className="pt-28 pb-20 px-6 max-w-7xl mx-auto">
+    <main className="pt-12 pb-20 px-4 md:px-6 max-w-7xl mx-auto">
       
-      {/* DATE LINE */}
-      <div className="border-b-2 border-black pb-2 mb-8 flex justify-between items-end font-sans text-xs font-bold uppercase tracking-widest">
-        <div>Vol. 1 — Issue 04</div>
-        <div>{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
-        <div>Istanbul, TR</div>
+      {/* 1. THE MANIFESTO (Header) */}
+      <div className="mb-12 max-w-4xl">
+         <div className="inline-block border border-black rounded-full px-3 py-1 text-xs font-mono font-bold uppercase mb-4 bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+            Academic Year 2025-26
+         </div>
+         <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-[0.95] mb-6">
+           Science is not just <br/>
+           <span className="text-orange-600 italic font-serif">theory.</span> It is <span className="underline decoration-4 decoration-slate-200 underline-offset-4">practice.</span>
+         </h1>
+         <p className="text-xl text-slate-600 max-w-2xl leading-relaxed">
+           VitalSigns is a student-led research collective. We experiment, we document, and we publish findings from our high school lab to the world.
+         </p>
       </div>
 
-      {/* HERO SECTION: GRID LAYOUT */}
-      <div className="grid lg:grid-cols-12 gap-8 mb-16 border-b-4 border-black pb-16">
-        
-        {/* LEFT COLUMN: THE BIG STORY */}
-        <div className="lg:col-span-8 group cursor-pointer">
-            {/* Image Box */}
-            <div className="relative border-2 border-black mb-4 h-[400px]">
-                 <img 
-                   src="https://images.unsplash.com/photo-1511296933631-18b897253d58?q=80&w=2070&auto=format&fit=crop" 
-                   alt="Sleep Science" 
-                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500"
-                 />
-                 <div className="absolute top-0 left-0 bg-black text-white px-4 py-2 font-sans text-xs font-bold uppercase">
-                    Cover Story
-                 </div>
-            </div>
-            
-            {/* Headline */}
-            <h1 className="text-5xl md:text-7xl font-black leading-[0.9] mb-6 group-hover:underline decoration-4 underline-offset-4">
-                Why 8 Hours of Sleep is a <span className="italic text-blue-700">Myth.</span>
-            </h1>
-            
-            <div className="grid md:grid-cols-12 gap-6">
-                <div className="md:col-span-2 font-sans text-xs font-bold uppercase border-t-2 border-black pt-2">
-                    <div>Author:</div>
-                    <div className="text-slate-500">Aslan Yıldız</div>
-                    <div className="mt-2">Read Time:</div>
-                    <div className="text-slate-500">6 Min</div>
-                </div>
-                <div className="md:col-span-10 text-xl leading-relaxed font-medium text-slate-700">
-                    <span className="font-bold text-4xl float-left mr-2 mt-[-10px]">W</span>e tracked the REM cycles of 50 students during finals week. The results suggest that timing your caffeine intake matters more than the total hours you spend in bed. Here is the biological breakdown of the "perfect nap."
-                </div>
-            </div>
-        </div>
-
-        {/* RIGHT COLUMN: THE SIDEBAR */}
-        <div className="lg:col-span-4 flex flex-col gap-8 border-l-0 lg:border-l-2 border-black lg:pl-8">
-            <div className="bg-yellow-300 border-2 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                <h3 className="font-sans font-black text-lg uppercase mb-2">Editor's Note</h3>
-                <p className="text-sm leading-tight italic">
-                    "This week we are focusing on exam survival. Also, the strawberries for the DNA lab have arrived. Do not eat them." <br/>— The Board
-                </p>
-            </div>
-
-            <div className="space-y-6">
-                <div className="font-sans font-black text-sm uppercase border-b-2 border-black pb-1">Internal Reports</div>
-                
-                {[
-                    { title: "We 3D printed a prosthetic hand for under $50.", tag: "Eng", color: "bg-purple-200" },
-                    { title: "Is the school hand sanitizer actually effective?", tag: "Chem", color: "bg-green-200" },
-                    { title: "Upcoming: Extracting DNA from Strawberries.", tag: "Bio", color: "bg-red-200" }
-                ].map((item, i) => (
-                    <div key={i} className="group cursor-pointer">
-                        <span className={`text-[10px] font-sans font-bold uppercase px-1 border border-black ${item.color} mb-1 inline-block`}>{item.tag}</span>
-                        <h3 className="text-xl font-bold leading-tight group-hover:text-blue-700 transition">
-                            {item.title}
-                        </h3>
-                    </div>
-                ))}
-            </div>
-
-            <div className="mt-auto border-t-2 border-black pt-6">
-                <h4 className="font-black text-2xl mb-2">Write for Us.</h4>
-                <p className="text-sm mb-4 text-slate-600">VitalSigns is open for student submissions.</p>
-                <Link to="/club" className="inline-block font-sans font-bold text-xs uppercase border-b-2 border-black hover:bg-black hover:text-white transition">
-                    Submit Application →
-                </Link>
-            </div>
-        </div>
-      </div>
-
-      {/* FEED SECTION: LIST STYLE (No Cards) */}
-      <div>
-          <h2 className="text-4xl font-black mb-8 italic">Dispatch Archive</h2>
+      {/* 2. THE BENTO GRID (The "Not Generic" Part) */}
+      <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-4 h-auto md:h-[800px]">
           
-          <div className="divide-y-2 divide-black border-t-2 border-b-2 border-black">
-              {[
-                  { title: "The Physiology of Caffeine Crash", date: "Jan 14", cat: "Biochem", desc: "Adenosine receptors explained." },
-                  { title: "AI in Medicine: Friend or Foe?", date: "Jan 12", cat: "Tech", desc: "The ethics of ChatGPT diagnosis." },
-                  { title: "Lab Safety 101: The Checklist", date: "Jan 10", cat: "Safety", desc: "Don't touch the acid." },
-                  { title: "New 3D Printer Arrival", date: "Jan 08", cat: "Update", desc: "Unboxing the Creality K1." },
-              ].map((item, i) => (
-                  <div key={i} className="py-6 grid md:grid-cols-12 gap-4 items-center group cursor-pointer hover:bg-white transition px-2">
-                      <div className="md:col-span-2 font-sans text-xs font-bold uppercase text-slate-500">{item.date}</div>
-                      <div className="md:col-span-2">
-                          <span className="font-sans text-[10px] font-bold uppercase border border-black px-2 py-1 rounded-full">{item.cat}</span>
-                      </div>
-                      <div className="md:col-span-4 font-bold text-xl group-hover:underline decoration-2 underline-offset-4">{item.title}</div>
-                      <div className="md:col-span-4 text-slate-600 text-sm font-sans truncate">{item.desc}</div>
-                  </div>
-              ))}
-          </div>
-      </div>
+          {/* A. FEATURE CARD (Big Image) */}
+          <Link to="/" className="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
+             <img 
+               src="https://images.unsplash.com/photo-1511296933631-18b897253d58?q=80&w=2070&auto=format&fit=crop" 
+               alt="Sleep"
+               className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+             />
+             <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold uppercase border border-slate-200">
+                Latest Study
+             </div>
+             <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent text-white">
+                <h3 className="text-3xl font-bold leading-tight mb-2">The 8-Hour Sleep Myth</h3>
+                <div className="flex items-center gap-2 text-sm font-medium opacity-90">
+                   <span>Read Full Analysis</span> <ArrowUpRight className="w-4 h-4" />
+                </div>
+             </div>
+          </Link>
 
+          {/* B. STATUS CARD */}
+          <div className="md:col-span-1 md:row-span-1 bg-[#1a1a1a] text-white rounded-2xl p-6 flex flex-col justify-between border border-black">
+              <div className="flex justify-between items-start">
+                  <Activity className="w-6 h-6 text-orange-500 animate-pulse" />
+                  <span className="text-[10px] uppercase font-mono border border-white/20 px-2 py-0.5 rounded-full">System</span>
+              </div>
+              <div>
+                  <div className="text-2xl font-bold mb-1">Lab Status</div>
+                  <div className="text-orange-500 font-mono text-sm">● Active / Protocol 04</div>
+              </div>
+          </div>
+
+          {/* C. QUICK TOOL */}
+          <div className="md:col-span-1 md:row-span-1 bg-orange-50 rounded-2xl p-6 border border-orange-100 flex flex-col justify-center items-center text-center cursor-pointer hover:border-orange-300 transition group">
+              <FlaskConical className="w-8 h-8 text-orange-600 mb-3 group-hover:rotate-12 transition" />
+              <h4 className="font-bold text-orange-900 leading-tight">Molarity<br/>Calculator</h4>
+          </div>
+
+          {/* D. DISPATCH LIST */}
+          <div className="md:col-span-2 md:row-span-1 bg-white rounded-2xl border border-slate-200 p-6 overflow-hidden relative">
+              <div className="absolute top-0 right-0 p-6 opacity-5">
+                  <FileText className="w-32 h-32" />
+              </div>
+              <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                 <span className="w-2 h-2 bg-blue-500 rounded-full"></span> Recent Notes
+              </h3>
+              <div className="space-y-3">
+                 {[
+                    { title: "DNA Extraction Protocol v2", date: "Jan 14" },
+                    { title: "3D Printer Calibration Logs", date: "Jan 12" },
+                    { title: "Safety Inspection Report", date: "Jan 10" },
+                 ].map((note, i) => (
+                    <div key={i} className="flex justify-between items-center text-sm border-b border-slate-100 pb-2 last:border-0 hover:pl-2 transition-all cursor-pointer">
+                        <span className="font-medium text-slate-700">{note.title}</span>
+                        <span className="font-mono text-xs text-slate-400">{note.date}</span>
+                    </div>
+                 ))}
+              </div>
+          </div>
+
+          {/* E. CLUB PROMO */}
+          <Link to="/club" className="md:col-span-1 md:row-span-1 bg-orange-600 text-white rounded-2xl p-6 flex flex-col justify-between hover:bg-orange-700 transition">
+             <div className="flex justify-between">
+                <Users className="w-6 h-6" />
+                <ArrowUpRight className="w-6 h-6" />
+             </div>
+             <div>
+                <div className="font-mono text-xs opacity-75 mb-1">MEMBERSHIP</div>
+                <div className="font-bold text-xl leading-none">Join the<br/>Unit</div>
+             </div>
+          </Link>
+
+          {/* F. TECH CARD */}
+           <div className="md:col-span-1 md:row-span-1 bg-slate-100 rounded-2xl p-6 border border-slate-200 flex flex-col justify-between hover:border-slate-400 transition cursor-pointer">
+              <div className="font-mono text-xs text-slate-500">PROJECT_ARCHIVE</div>
+              <div>
+                  <div className="font-bold text-lg">Prosthetic Hand</div>
+                  <div className="text-xs text-slate-500 mt-1">Cost: $45.00</div>
+              </div>
+           </div>
+
+      </div>
     </main>
   );
 };
 
-// --- CLUB HQ: BRUTALIST STYLE ---
+// --- CLUB HQ: CLEAN & ACADEMIC ---
 const ClubHQ = () => (
-  <div className="pt-28 pb-20 px-6 max-w-7xl mx-auto">
+  <div className="pt-12 pb-20 px-4 md:px-6 max-w-5xl mx-auto">
     
-    <div className="grid md:grid-cols-2 gap-12 mb-20">
-        <div className="border-4 border-black p-8 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white">
-            <h1 className="text-6xl md:text-8xl font-black leading-[0.85] mb-8 uppercase">
-                Join<br/>The<br/>Unit.
+    <div className="bg-white border border-slate-200 rounded-3xl p-8 md:p-16 mb-12 shadow-sm relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-orange-50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        
+        <div className="relative z-10 text-center">
+            <div className="inline-flex items-center gap-2 border border-slate-200 bg-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Applications Open
+            </div>
+            <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-6 tracking-tight">
+                VitalSigns<span className="text-orange-600">.Club</span>
             </h1>
-            <p className="text-xl font-medium mb-8 max-w-md">
-                VitalSigns is not just a club. It is a student-led research institute. We need biologists, coders, and writers.
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed mb-10">
+                A hub for aspiring biologists, doctors, and engineers. We provide the equipment, the mentorship, and the platform. You provide the curiosity.
             </p>
-            <div className="flex flex-col gap-4">
-                <button className="bg-black text-white py-4 px-8 font-sans font-bold uppercase tracking-widest border-2 border-black hover:bg-white hover:text-black transition">
-                    Student Application Form
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button className="bg-black text-white px-8 py-4 rounded-xl font-bold hover:bg-orange-600 transition flex items-center justify-center gap-2">
+                    Apply for Membership <ChevronRight className="w-4 h-4" />
                 </button>
-                <button className="bg-blue-600 text-white py-4 px-8 font-sans font-bold uppercase tracking-widest border-2 border-black hover:bg-white hover:text-blue-600 transition">
-                    Start a Chapter (Global)
+                <button className="bg-white border border-slate-300 text-slate-700 px-8 py-4 rounded-xl font-bold hover:bg-slate-50 transition flex items-center justify-center gap-2">
+                    Start a Chapter <ExternalLink className="w-4 h-4" />
                 </button>
             </div>
         </div>
+    </div>
 
-        <div className="space-y-6">
-            <div className="bg-black text-white p-6 font-sans font-bold uppercase tracking-widest text-sm">
-                Executive Command
-            </div>
+    {/* TEAM GRID (POLAROID STYLE) */}
+    <div>
+        <h2 className="text-2xl font-bold mb-8 flex items-center gap-3">
+            <span className="w-8 h-px bg-slate-300"></span> Executive Board
+        </h2>
+        
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
             {[
-                { n: "Aslan Yıldız", r: "President", code: "AY-01" },
-                { n: "Shiekh Daiyan", r: "Vice President", code: "SD-02" },
-                { n: "Kaiyaan Akbar", r: "Club Manager", code: "KA-03" },
-                { n: "Abdelrahman Kurdi", r: "Safety Officer", code: "AK-04" },
-                { n: "Abdalrahman", r: "Head of Digital", code: "AB-05" },
+                { n: "Aslan Yıldız", r: "President" },
+                { n: "Shiekh Daiyan", r: "Vice President" },
+                { n: "Kaiyaan Akbar", r: "Club Manager" },
+                { n: "Abdelrahman K.", r: "Safety Officer" },
+                { n: "Abdalrahman", r: "Digital Lead" },
+                { n: "Faculty", r: "Advisors" },
             ].map((m, i) => (
-                <div key={i} className="flex justify-between items-center border-b-2 border-black pb-4">
-                    <div>
-                        <div className="font-black text-2xl">{m.n}</div>
-                        <div className="font-sans text-xs uppercase tracking-widest text-slate-500">{m.r}</div>
+                <div key={i} className="bg-white p-4 pb-8 shadow-sm border border-slate-200 rotate-1 hover:rotate-0 transition duration-300 hover:shadow-md hover:border-orange-200">
+                    <div className="aspect-square bg-slate-100 mb-4 flex items-center justify-center text-slate-300">
+                        {/* Placeholder for real photo */}
+                        <Users className="w-8 h-8" />
                     </div>
-                    <div className="font-mono text-sm bg-slate-200 px-2 py-1">{m.code}</div>
+                    <h3 className="font-bold text-lg leading-tight">{m.n}</h3>
+                    <p className="text-sm text-slate-500 font-mono mt-1">{m.r}</p>
                 </div>
             ))}
-            
-            <div className="mt-8 pt-8">
-                <div className="font-sans font-bold uppercase tracking-widest text-sm mb-4 text-slate-400">Faculty Supervision</div>
-                <div className="font-bold text-lg">Ms. Maymouna • Ms. Ayse • Ms. Marwa</div>
-            </div>
         </div>
     </div>
 
@@ -229,20 +235,16 @@ const ClubHQ = () => (
 );
 
 const Footer = () => (
-  <footer className="bg-black text-white py-16 px-6 font-sans">
-    <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-12">
-        <div>
-            <div className="text-4xl font-black uppercase mb-4 tracking-tighter">VitalSigns.</div>
-            <p className="text-slate-400 text-xs uppercase tracking-widest max-w-xs">
-                Printed in Istanbul. Hosted on Vercel.<br/>
-                © 2026 Student Research Unit.
-            </p>
+  <footer className="border-t border-slate-200 bg-slate-50 py-12 px-6">
+    <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="font-mono text-xs text-slate-500">
+            VitalSigns Unit. Est 2026. <br/>
+            Istanbul, TR.
         </div>
-        <div className="flex gap-8 text-xs font-bold uppercase tracking-widest">
-            <Link to="/" className="hover:text-blue-400">Journal</Link>
-            <Link to="/club" className="hover:text-blue-400">Club HQ</Link>
-            <a href="#" className="hover:text-blue-400">Instagram</a>
-            <a href="#" className="hover:text-blue-400">Email</a>
+        <div className="flex gap-6 font-bold text-sm text-slate-800">
+             <Link to="/" className="hover:text-orange-600">Journal</Link>
+             <Link to="/club" className="hover:text-orange-600">Join</Link>
+             <a href="#" className="hover:text-orange-600">Instagram</a>
         </div>
     </div>
   </footer>
