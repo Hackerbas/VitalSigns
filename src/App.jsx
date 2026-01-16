@@ -31,11 +31,13 @@ const Navbar = () => {
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-        {/* LOGO MATCHING YOUR IMAGE */}
+        {/* REAL LOGO IMPLEMENTATION */}
         <Link to="/" className="flex items-center gap-3 group">
-           <div className="w-10 h-10 rounded-full bg-blue-100 border-2 border-blue-600 flex items-center justify-center text-blue-700">
-             <Microscope className="w-5 h-5" />
-           </div>
+           <img 
+             src="/logo.png" 
+             alt="VitalSigns Logo" 
+             className="w-12 h-12 object-contain group-hover:scale-105 transition duration-300"
+           />
            <div className="flex flex-col leading-tight">
              <span className="font-bold text-lg text-blue-900 tracking-tight uppercase">VitalSigns</span>
              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Medical & Health Sciences Society</span>
@@ -72,52 +74,59 @@ const Navbar = () => {
 const Home = () => {
   return (
     <main>
-      {/* HERO SECTION - MATCHING YOUR BANNER */}
-      <div className="bg-blue-700 text-white py-24 px-6 relative overflow-hidden">
-         {/* Background Decoration */}
-         <div className="absolute top-0 right-0 opacity-10 pointer-events-none">
-            <Brain className="w-96 h-96 -translate-y-1/2 translate-x-1/2" />
+      {/* HERO SECTION - USING YOUR BANNER */}
+      <div className="bg-blue-900 text-white py-24 px-6 relative overflow-hidden min-h-[500px] flex items-center">
+         
+         {/* THE BANNER BACKGROUND */}
+         <div className="absolute inset-0 z-0">
+            <img 
+              src="/banner.jpg" 
+              alt="VitalSigns Banner" 
+              className="w-full h-full object-cover"
+            />
+            {/* Dark Blue Overlay so text is readable on top of the banner */}
+            <div className="absolute inset-0 bg-blue-900/85 backdrop-blur-[2px]"></div>
          </div>
          
          <div className="max-w-4xl mx-auto text-center relative z-10">
-            <div className="inline-block bg-blue-600 border border-blue-400 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
+            <div className="inline-block bg-white/10 border border-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
                Science & Innovation Lab
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight drop-shadow-lg">
                Advancing the Science of <br/>Medicine & Health
             </h1>
-            <p className="text-xl text-blue-100 max-w-2xl mx-auto mb-10 leading-relaxed">
+            <p className="text-xl text-blue-100 max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
                A student-led society where members explore biology, chemistry, and health sciences through hands-on experiments and real-world research.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-               <Link to="/programs" className="bg-white text-blue-700 px-8 py-4 rounded-xl font-bold hover:bg-blue-50 transition shadow-xl">
+               <Link to="/programs" className="bg-white text-blue-900 px-8 py-4 rounded-xl font-bold hover:bg-blue-50 transition shadow-xl border-2 border-white">
                   Explore Programs
                </Link>
-               <Link to="/membership" className="bg-transparent border-2 border-white px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition">
+               <Link to="/membership" className="bg-transparent border-2 border-white/50 px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-blue-900 transition text-white">
                   Membership Info
                </Link>
             </div>
          </div>
       </div>
 
-      {/* THE THREE PILLARS - MATCHING BANNER ICONS */}
-      <div className="max-w-6xl mx-auto px-6 -mt-12 relative z-20">
+      {/* THE THREE PILLARS */}
+      <div className="max-w-6xl mx-auto px-6 -mt-16 relative z-20">
          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-white p-8 rounded-2xl shadow-xl shadow-slate-200/50 flex flex-col items-center text-center border-b-4 border-blue-500">
+            <div className="bg-white p-8 rounded-2xl shadow-xl shadow-slate-900/10 flex flex-col items-center text-center border-b-4 border-blue-500">
                <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 mb-6">
                   <Microscope className="w-8 h-8" />
                </div>
                <h3 className="text-xl font-bold text-slate-900 mb-2">Medical Research</h3>
                <p className="text-slate-500 text-sm">Investigating biological processes and disease prevention strategies.</p>
             </div>
-            <div className="bg-white p-8 rounded-2xl shadow-xl shadow-slate-200/50 flex flex-col items-center text-center border-b-4 border-indigo-500">
+            <div className="bg-white p-8 rounded-2xl shadow-xl shadow-slate-900/10 flex flex-col items-center text-center border-b-4 border-indigo-500">
                <div className="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-600 mb-6">
                   <Brain className="w-8 h-8" />
                </div>
                <h3 className="text-xl font-bold text-slate-900 mb-2">Health Sciences</h3>
                <p className="text-slate-500 text-sm">Understanding hygiene, nutrition, and human anatomy.</p>
             </div>
-            <div className="bg-white p-8 rounded-2xl shadow-xl shadow-slate-200/50 flex flex-col items-center text-center border-b-4 border-cyan-500">
+            <div className="bg-white p-8 rounded-2xl shadow-xl shadow-slate-900/10 flex flex-col items-center text-center border-b-4 border-cyan-500">
                <div className="w-16 h-16 bg-cyan-50 rounded-full flex items-center justify-center text-cyan-600 mb-6">
                   <FlaskConical className="w-8 h-8" />
                </div>
@@ -154,9 +163,10 @@ const Home = () => {
                <div className="absolute top-4 right-4 bg-white px-4 py-2 rounded-lg shadow-sm font-bold text-blue-700 text-sm">
                   Est. 2026
                </div>
-               {/* Placeholder for Club Photo */}
-               <div className="aspect-[4/3] bg-slate-200 rounded-xl flex items-center justify-center text-slate-400 mb-6">
-                  <Users className="w-16 h-16" />
+               {/* PLACEHOLDER FOR A REAL LAB PHOTO IN FUTURE */}
+               <div className="aspect-[4/3] bg-white rounded-xl flex flex-col items-center justify-center text-slate-400 mb-6 border-2 border-dashed border-slate-300">
+                  <Users className="w-12 h-12 mb-2" />
+                  <span className="text-sm font-bold">Club Photo Area</span>
                </div>
                <div className="text-center">
                   <p className="font-bold text-slate-900">Meetings: 1–3 times per week</p>
@@ -289,9 +299,8 @@ const Footer = () => (
   <footer className="bg-slate-900 text-white py-12 px-6">
     <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="flex items-center gap-3">
-           <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
-             <Microscope className="w-4 h-4 text-white" />
-           </div>
+           {/* LOGO IN FOOTER */}
+           <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain" />
            <div>
               <div className="font-bold uppercase tracking-wider">VitalSigns</div>
               <div className="text-[10px] text-slate-400 uppercase">Medical & Health Sciences Society</div>
