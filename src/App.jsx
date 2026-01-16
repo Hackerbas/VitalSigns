@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { 
   Menu, X, Activity, Globe, Users, TrendingUp, 
-  Clock, Share2, ChevronRight, ArrowRight, Bookmark,
-  Microscope, FlaskConical, Cpu
+  ArrowRight, FileText, ChevronRight, Bookmark
 } from 'lucide-react';
 
 const VitalSignsWebsite = () => {
   return (
     <Router>
-      {/* THEME: High-End Journalism (Clean White, Stark Black, Royal Blue Accents) */}
-      <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-600 selection:text-white flex flex-col">
+      {/* THEME: "The Sunday Paper" - Off-white, sharp borders, high contrast */}
+      <div className="min-h-screen bg-[#F4F4F0] text-slate-900 font-serif selection:bg-yellow-200 selection:text-black flex flex-col">
         <Navbar />
         <Routes>
           <Route path="/" element={<JournalHome />} />
@@ -22,36 +21,32 @@ const VitalSignsWebsite = () => {
   );
 };
 
-// --- COMPONENTS ---
-
+// --- NAVBAR: Looks like a newspaper header ---
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
 
   return (
-    <nav className="fixed w-full z-50 bg-white/95 backdrop-blur-sm border-b border-slate-200">
+    <nav className="fixed w-full z-50 bg-[#F4F4F0] border-b-4 border-black">
       <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-        {/* MASTHEAD LOGO */}
-        <Link to="/" className="flex flex-col group">
-          <div className="flex items-center gap-2">
-             <div className="bg-black text-white px-2 py-0.5 font-black text-lg italic tracking-tighter">VS.</div>
-             <span className="font-serif text-2xl font-black tracking-tight group-hover:text-blue-700 transition">VitalSigns<span className="text-slate-400 font-normal italic">Review</span></span>
-          </div>
-          <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 mt-0.5 ml-1">Est. 2026 • Science Journalism</span>
+        {/* MASTHEAD */}
+        <Link to="/" className="flex items-center gap-3">
+           <div className="bg-black text-white w-10 h-10 flex items-center justify-center font-black text-xl border-2 border-transparent hover:bg-white hover:text-black hover:border-black transition">
+             VS
+           </div>
+           <div className="flex flex-col leading-none">
+             <span className="text-3xl font-black tracking-tighter uppercase">VitalSigns.</span>
+             <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-slate-500">The Student Research Journal</span>
+           </div>
         </Link>
         
-        {/* CATEGORIES + CLUB BUTTON */}
-        <div className="hidden md:flex items-center gap-8 font-bold text-sm text-slate-600">
-          <a href="#" className="hover:text-black hover:underline decoration-2 underline-offset-4">Biology</a>
-          <a href="#" className="hover:text-black hover:underline decoration-2 underline-offset-4">Tech</a>
-          <a href="#" className="hover:text-black hover:underline decoration-2 underline-offset-4">Student Life</a>
+        {/* NAV LINKS (Desktop) */}
+        <div className="hidden md:flex items-center gap-8 font-sans font-bold text-xs uppercase tracking-widest">
+          <a href="#" className="hover:bg-black hover:text-white px-2 py-1 transition">Biology</a>
+          <a href="#" className="hover:bg-black hover:text-white px-2 py-1 transition">Chemistry</a>
+          <a href="#" className="hover:bg-black hover:text-white px-2 py-1 transition">Tech</a>
           
-          <div className="h-6 w-px bg-slate-200"></div>
-
-          {/* THE CLUB HQ BUTTON */}
-          <Link to="/club" className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-full hover:bg-blue-700 transition shadow-lg shadow-blue-600/20">
-            <Users className="w-4 h-4" />
-            <span className="font-bold tracking-tight">Club HQ</span>
+          <Link to="/club" className="border-2 border-black px-5 py-2 hover:bg-black hover:text-white transition shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]">
+            Join The Club
           </Link>
         </div>
 
@@ -62,175 +57,116 @@ const Navbar = () => {
       
        {/* Mobile Menu */}
        {isOpen && (
-        <div className="md:hidden bg-white border-b border-slate-200 p-6 space-y-6 font-bold text-lg">
+        <div className="md:hidden bg-[#F4F4F0] border-b-4 border-black p-6 space-y-6 font-bold text-xl border-t-2">
            <Link to="/" onClick={()=>setIsOpen(false)} className="block">Latest Stories</Link>
-           <div className="h-px bg-slate-100 w-full"></div>
-           <Link to="/club" onClick={()=>setIsOpen(false)} className="flex items-center gap-2 text-blue-600">
-             <Users className="w-5 h-5" /> Visit Club HQ
-           </Link>
+           <Link to="/club" onClick={()=>setIsOpen(false)} className="block text-blue-700">Club HQ</Link>
         </div>
       )}
     </nav>
   );
 };
 
-// --- MAIN PAGE: THE JOURNAL ---
+// --- MAIN PAGE: NEWSPAPER STYLE ---
 const JournalHome = () => {
   return (
     <main className="pt-28 pb-20 px-6 max-w-7xl mx-auto">
       
-      {/* TICKER / DATE BAR */}
-      <div className="flex flex-col md:flex-row justify-between items-center border-b-2 border-black pb-4 mb-12 text-xs font-mono uppercase tracking-widest text-slate-500">
-        <div className="font-bold text-slate-900">{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
-        <div className="flex items-center gap-3 mt-2 md:mt-0">
-             <span className="flex items-center gap-1 text-red-600 font-bold animate-pulse"><TrendingUp className="w-3 h-3" /> LIVE:</span>
-             <span>Lab Results</span>
-             <span>•</span>
-             <span>Exam Schedules</span>
-             <span>•</span>
-             <span>New Prosthetic Proto</span>
-        </div>
+      {/* DATE LINE */}
+      <div className="border-b-2 border-black pb-2 mb-8 flex justify-between items-end font-sans text-xs font-bold uppercase tracking-widest">
+        <div>Vol. 1 — Issue 04</div>
+        <div>{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+        <div>Istanbul, TR</div>
       </div>
 
-      {/* SECTION 1: THE COVER STORY (Big, Bold) */}
-      <div className="grid lg:grid-cols-12 gap-12 mb-20">
+      {/* HERO SECTION: GRID LAYOUT */}
+      <div className="grid lg:grid-cols-12 gap-8 mb-16 border-b-4 border-black pb-16">
+        
+        {/* LEFT COLUMN: THE BIG STORY */}
         <div className="lg:col-span-8 group cursor-pointer">
-            <div className="relative overflow-hidden rounded-xl mb-6 aspect-[16/9] border border-slate-200">
-                 {/* --- HERO IMAGE (You can swap this for /sleep.jpg later) --- */}
+            {/* Image Box */}
+            <div className="relative border-2 border-black mb-4 h-[400px]">
                  <img 
-                   src="/sleep.jpg" 
-                   alt="Science of Sleep" 
-                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-700 ease-in-out"
+                   src="https://images.unsplash.com/photo-1511296933631-18b897253d58?q=80&w=2070&auto=format&fit=crop" 
+                   alt="Sleep Science" 
+                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500"
                  />
-                 
-                 {/* Dark Overlay so text is readable */}
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-                 
-                 {/* Content Overlay */}
-                 <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10 text-white z-10">
-                     <span className="bg-blue-600 text-white px-3 py-1 rounded text-xs font-bold uppercase tracking-wider mb-3 inline-block">Deep Dive</span>
-                     <h1 className="text-3xl md:text-5xl font-black font-serif leading-none mb-4 group-hover:text-blue-300 transition">
-                         The Science of Sleep:<br/>Why 8 Hours Isn't Enough.
-                     </h1>
-                     <div className="flex items-center gap-3 text-sm font-medium text-slate-300">
-                        <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-xs text-white font-bold">AY</div>
-                        <span>By Aslan Yıldız</span>
-                        <span>•</span>
-                        <span>6 min read</span>
-                     </div>
+                 <div className="absolute top-0 left-0 bg-black text-white px-4 py-2 font-sans text-xs font-bold uppercase">
+                    Cover Story
                  </div>
             </div>
+            
+            {/* Headline */}
+            <h1 className="text-5xl md:text-7xl font-black leading-[0.9] mb-6 group-hover:underline decoration-4 underline-offset-4">
+                Why 8 Hours of Sleep is a <span className="italic text-blue-700">Myth.</span>
+            </h1>
+            
+            <div className="grid md:grid-cols-12 gap-6">
+                <div className="md:col-span-2 font-sans text-xs font-bold uppercase border-t-2 border-black pt-2">
+                    <div>Author:</div>
+                    <div className="text-slate-500">Aslan Yıldız</div>
+                    <div className="mt-2">Read Time:</div>
+                    <div className="text-slate-500">6 Min</div>
+                </div>
+                <div className="md:col-span-10 text-xl leading-relaxed font-medium text-slate-700">
+                    <span className="font-bold text-4xl float-left mr-2 mt-[-10px]">W</span>e tracked the REM cycles of 50 students during finals week. The results suggest that timing your caffeine intake matters more than the total hours you spend in bed. Here is the biological breakdown of the "perfect nap."
+                </div>
+            </div>
         </div>
 
-        {/* SECTION 2: TOP STORIES (Sidebar) */}
-        <div className="lg:col-span-4 flex flex-col gap-8">
-            <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                <span className="font-black text-sm uppercase tracking-widest">Editors' Picks</span>
+        {/* RIGHT COLUMN: THE SIDEBAR */}
+        <div className="lg:col-span-4 flex flex-col gap-8 border-l-0 lg:border-l-2 border-black lg:pl-8">
+            <div className="bg-yellow-300 border-2 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                <h3 className="font-sans font-black text-lg uppercase mb-2">Editor's Note</h3>
+                <p className="text-sm leading-tight italic">
+                    "This week we are focusing on exam survival. Also, the strawberries for the DNA lab have arrived. Do not eat them." <br/>— The Board
+                </p>
             </div>
 
-            {[
-                { 
-                  cat: "Engineering", 
-                  title: "We 3D printed a prosthetic hand for under $50.", 
-                  author: "Lab Team", 
-                  color: "text-purple-600" 
-                },
-                { 
-                  cat: "Chemistry", 
-                  title: "Investigation: Is the school hand sanitizer actually effective?", 
-                  author: "Safety Unit", 
-                  color: "text-emerald-600" 
-                },
-                { 
-                  cat: "Op-Ed", 
-                  title: "Why every student needs to understand basic First Aid.", 
-                  author: "A. Kurdi", 
-                  color: "text-orange-600" 
-                }
-            ].map((story, i) => (
-                <div key={i} className="group cursor-pointer">
-                    <div className={`text-xs font-bold uppercase mb-2 ${story.color} flex items-center gap-2`}>
-                        <div className={`w-2 h-2 rounded-full bg-current`}></div>
-                        {story.cat}
+            <div className="space-y-6">
+                <div className="font-sans font-black text-sm uppercase border-b-2 border-black pb-1">Internal Reports</div>
+                
+                {[
+                    { title: "We 3D printed a prosthetic hand for under $50.", tag: "Eng", color: "bg-purple-200" },
+                    { title: "Is the school hand sanitizer actually effective?", tag: "Chem", color: "bg-green-200" },
+                    { title: "Upcoming: Extracting DNA from Strawberries.", tag: "Bio", color: "bg-red-200" }
+                ].map((item, i) => (
+                    <div key={i} className="group cursor-pointer">
+                        <span className={`text-[10px] font-sans font-bold uppercase px-1 border border-black ${item.color} mb-1 inline-block`}>{item.tag}</span>
+                        <h3 className="text-xl font-bold leading-tight group-hover:text-blue-700 transition">
+                            {item.title}
+                        </h3>
                     </div>
-                    <h3 className="text-xl font-bold leading-tight group-hover:text-blue-700 transition mb-2">
-                        {story.title}
-                    </h3>
-                    <p className="text-xs text-slate-400 font-mono">By {story.author}</p>
-                </div>
-            ))}
+                ))}
+            </div>
 
-            <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 mt-auto">
-                <h4 className="font-bold text-slate-900 mb-2">Join the Editorial Board</h4>
-                <p className="text-sm text-slate-600 mb-4">We are looking for writers, researchers, and photographers.</p>
-                <Link to="/club" className="text-sm font-black text-blue-600 hover:underline">Apply Now →</Link>
+            <div className="mt-auto border-t-2 border-black pt-6">
+                <h4 className="font-black text-2xl mb-2">Write for Us.</h4>
+                <p className="text-sm mb-4 text-slate-600">VitalSigns is open for student submissions.</p>
+                <Link to="/club" className="inline-block font-sans font-bold text-xs uppercase border-b-2 border-black hover:bg-black hover:text-white transition">
+                    Submit Application →
+                </Link>
             </div>
         </div>
       </div>
 
-      {/* SECTION 3: RECENT DISPATCHES (Updated with Photos) */}
-      <div className="border-t border-black pt-12">
-          <div className="flex items-center gap-2 mb-12">
-              <Activity className="w-6 h-6 text-blue-600" />
-              <h2 className="text-3xl font-black font-serif">Recent Dispatches</h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-x-8 gap-y-12">
+      {/* FEED SECTION: LIST STYLE (No Cards) */}
+      <div>
+          <h2 className="text-4xl font-black mb-8 italic">Dispatch Archive</h2>
+          
+          <div className="divide-y-2 divide-black border-t-2 border-b-2 border-black">
               {[
-                  { 
-                    title: "DNA Extraction: A Strawberry Experiment", 
-                    desc: "A step-by-step breakdown of cell lysis using household items.", 
-                    image: "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&q=80&w=800",
-                    tag: "Lab Report"
-                  },
-                  { 
-                    title: "The Physiology of Caffeine Crash", 
-                    desc: "What happens to your adenosine receptors when the coffee wears off?", 
-                    image: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=800",
-                    tag: "Biochemistry"
-                  },
-                  { 
-                    title: "AI in Medicine: Friend or Foe?", 
-                    desc: "Analyzing the role of Large Language Models in patient triage.", 
-                    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
-                    tag: "Technology"
-                  },
-                  { 
-                    title: "Lab Safety 101: The Checklist", 
-                    desc: "Essential protocols before you touch a single beaker.", 
-                    image: "https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&q=80&w=800",
-                    tag: "Protocol"
-                  },
-                  { 
-                    title: "Student Stress & Cortisol Levels", 
-                    desc: "A proposed study for the upcoming Spring term.", 
-                    image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800",
-                    tag: "Hypothesis"
-                  },
-                  { 
-                    title: "Club Update: New 3D Printer Arrival", 
-                    desc: "Unboxing and calibration of the new engineering unit.", 
-                    image: "https://images.unsplash.com/photo-1631541909061-71e349d1f203?auto=format&fit=crop&q=80&w=800",
-                    tag: "Engineering"
-                  },
+                  { title: "The Physiology of Caffeine Crash", date: "Jan 14", cat: "Biochem", desc: "Adenosine receptors explained." },
+                  { title: "AI in Medicine: Friend or Foe?", date: "Jan 12", cat: "Tech", desc: "The ethics of ChatGPT diagnosis." },
+                  { title: "Lab Safety 101: The Checklist", date: "Jan 10", cat: "Safety", desc: "Don't touch the acid." },
+                  { title: "New 3D Printer Arrival", date: "Jan 08", cat: "Update", desc: "Unboxing the Creality K1." },
               ].map((item, i) => (
-                  <div key={i} className="group cursor-pointer flex flex-col h-full">
-                      <div className="overflow-hidden rounded-lg mb-4 aspect-[4/3] relative">
-                          <img 
-                            src={item.image} 
-                            alt={item.title} 
-                            className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                          />
-                          <span className="absolute top-3 left-3 bg-black/70 backdrop-blur-sm text-white text-[10px] font-bold uppercase px-2 py-1 rounded">
-                            {item.tag}
-                          </span>
+                  <div key={i} className="py-6 grid md:grid-cols-12 gap-4 items-center group cursor-pointer hover:bg-white transition px-2">
+                      <div className="md:col-span-2 font-sans text-xs font-bold uppercase text-slate-500">{item.date}</div>
+                      <div className="md:col-span-2">
+                          <span className="font-sans text-[10px] font-bold uppercase border border-black px-2 py-1 rounded-full">{item.cat}</span>
                       </div>
-                      <h3 className="text-xl font-bold mb-2 leading-snug group-hover:text-blue-700 transition">{item.title}</h3>
-                      <p className="text-slate-600 leading-relaxed text-sm mb-4 flex-grow">{item.desc}</p>
-                      <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase mt-auto group-hover:text-blue-600 transition">
-                          <span>Read Full Story</span>
-                          <ArrowRight className="w-3 h-3" />
-                      </div>
+                      <div className="md:col-span-4 font-bold text-xl group-hover:underline decoration-2 underline-offset-4">{item.title}</div>
+                      <div className="md:col-span-4 text-slate-600 text-sm font-sans truncate">{item.desc}</div>
                   </div>
               ))}
           </div>
@@ -240,112 +176,74 @@ const JournalHome = () => {
   );
 };
 
-// --- CLUB HQ PAGE (The "Behind the Scenes" Portal) ---
+// --- CLUB HQ: BRUTALIST STYLE ---
 const ClubHQ = () => (
-  <div className="pt-24 pb-20 px-6 max-w-6xl mx-auto">
+  <div className="pt-28 pb-20 px-6 max-w-7xl mx-auto">
     
-    {/* HERO */}
-    <div className="text-center mb-16">
-        <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 inline-block">Official Club Portal</span>
-        <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight text-slate-900">More than a Website.<br/>We are a Movement.</h1>
-        <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            The <strong>VitalSigns Review</strong> is the public face of the <strong>VitalSigns Biomedical Club</strong>. We are a student-led organization dedicated to practical science, medical innovation, and clinical skills.
-        </p>
-    </div>
-
-    {/* THE TWO PATHS */}
-    <div className="grid md:grid-cols-2 gap-8 mb-20">
-        
-        {/* PATH 1: LOCAL JOIN */}
-        <div className="bg-slate-900 text-white p-10 rounded-2xl relative overflow-hidden group shadow-2xl">
-            <div className="relative z-10">
-                <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mb-8 backdrop-blur-sm border border-white/10">
-                    <Users className="w-7 h-7 text-white" />
-                </div>
-                <h3 className="text-3xl font-black mb-4">Join Our Chapter</h3>
-                <p className="text-slate-300 mb-8 text-lg leading-relaxed">
-                    Are you a student at our school? Apply to become a core member, researcher, or media lead.
-                </p>
-                <button className="bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-blue-600 hover:text-white transition w-full md:w-auto shadow-lg">
-                    Open Application Form
+    <div className="grid md:grid-cols-2 gap-12 mb-20">
+        <div className="border-4 border-black p-8 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white">
+            <h1 className="text-6xl md:text-8xl font-black leading-[0.85] mb-8 uppercase">
+                Join<br/>The<br/>Unit.
+            </h1>
+            <p className="text-xl font-medium mb-8 max-w-md">
+                VitalSigns is not just a club. It is a student-led research institute. We need biologists, coders, and writers.
+            </p>
+            <div className="flex flex-col gap-4">
+                <button className="bg-black text-white py-4 px-8 font-sans font-bold uppercase tracking-widest border-2 border-black hover:bg-white hover:text-black transition">
+                    Student Application Form
+                </button>
+                <button className="bg-blue-600 text-white py-4 px-8 font-sans font-bold uppercase tracking-widest border-2 border-black hover:bg-white hover:text-blue-600 transition">
+                    Start a Chapter (Global)
                 </button>
             </div>
-            {/* Decorative */}
-            <Activity className="absolute -bottom-10 -right-10 w-64 h-64 text-white/5 group-hover:scale-110 transition duration-500" />
         </div>
 
-        {/* PATH 2: EXPANSION */}
-        <div className="bg-blue-600 text-white p-10 rounded-2xl relative overflow-hidden group shadow-2xl shadow-blue-200">
-            <div className="relative z-10">
-                <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mb-8 backdrop-blur-sm border border-white/20">
-                    <Globe className="w-7 h-7 text-white" />
-                </div>
-                <h3 className="text-3xl font-black mb-4">Start a Chapter</h3>
-                <p className="text-blue-100 mb-8 text-lg leading-relaxed">
-                    Want to bring VitalSigns to your school? We provide the branding, the research kits, and the website template.
-                </p>
-                <button className="bg-black text-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-blue-600 transition w-full md:w-auto shadow-lg">
-                    Request Founder Kit
-                </button>
+        <div className="space-y-6">
+            <div className="bg-black text-white p-6 font-sans font-bold uppercase tracking-widest text-sm">
+                Executive Command
             </div>
-             {/* Decorative */}
-             <Globe className="absolute -bottom-10 -right-10 w-64 h-64 text-white/10 group-hover:rotate-12 transition duration-500" />
+            {[
+                { n: "Aslan Yıldız", r: "President", code: "AY-01" },
+                { n: "Shiekh Daiyan", r: "Vice President", code: "SD-02" },
+                { n: "Kaiyaan Akbar", r: "Club Manager", code: "KA-03" },
+                { n: "Abdelrahman Kurdi", r: "Safety Officer", code: "AK-04" },
+                { n: "Abdalrahman", r: "Head of Digital", code: "AB-05" },
+            ].map((m, i) => (
+                <div key={i} className="flex justify-between items-center border-b-2 border-black pb-4">
+                    <div>
+                        <div className="font-black text-2xl">{m.n}</div>
+                        <div className="font-sans text-xs uppercase tracking-widest text-slate-500">{m.r}</div>
+                    </div>
+                    <div className="font-mono text-sm bg-slate-200 px-2 py-1">{m.code}</div>
+                </div>
+            ))}
+            
+            <div className="mt-8 pt-8">
+                <div className="font-sans font-bold uppercase tracking-widest text-sm mb-4 text-slate-400">Faculty Supervision</div>
+                <div className="font-bold text-lg">Ms. Maymouna • Ms. Ayse • Ms. Marwa</div>
+            </div>
         </div>
     </div>
 
-    {/* THE BOARD */}
-    <div className="border-t-2 border-slate-100 pt-16">
-        <h2 className="text-3xl font-black mb-12 text-center">Meet the Executive Board</h2>
-        <div className="grid md:grid-cols-3 gap-6">
-             {[
-                { n: "Aslan Yıldız", r: "President", desc: "Leading the vision and research direction." },
-                { n: "Shiekh Daiyan", r: "Vice President", desc: "Managing daily operations and logistics." },
-                { n: "Kaiyaan Akbar", r: "Club Manager", desc: "Ensuring smooth execution of all projects." },
-                { n: "Abdelrahman Kurdi", r: "Safety Officer", desc: "Maintains lab safety protocols." },
-                { n: "Abdalrahman", r: "Head of Digital", desc: "Manages the VitalSigns Review Platform." },
-                { n: "Faculty Advisors", r: "Supervision", desc: "Ms. Maymouna, Ms. Ayse, Ms. Marwa" },
-             ].map((m, i) => (
-                 <div key={i} className="bg-white p-8 rounded-xl border border-slate-200 hover:border-blue-600 hover:shadow-lg transition group">
-                     <div className="text-xs font-bold text-blue-600 uppercase mb-3 tracking-widest">{m.r}</div>
-                     <h3 className="text-2xl font-black font-serif mb-2 group-hover:text-blue-700 transition">{m.n}</h3>
-                     <p className="text-slate-500 text-sm">{m.desc}</p>
-                 </div>
-             ))}
-        </div>
-    </div>
   </div>
 );
 
 const Footer = () => (
-  <footer className="bg-slate-50 border-t border-slate-200 py-16">
-    <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-start gap-12">
-        <div className="max-w-xs">
-            <div className="flex items-center gap-2 mb-4">
-                 <div className="bg-black text-white px-1.5 py-0.5 font-black text-sm italic transform -skew-x-12">VS.</div>
-                 <span className="font-serif font-black text-lg">VitalSigns<span className="text-slate-400 italic font-normal">Review</span></span>
-            </div>
-            <p className="text-xs text-slate-500 leading-relaxed">
-                A student-led publication dedicated to the advancement of biomedical sciences and clinical application. Produced by the VitalSigns Club.
+  <footer className="bg-black text-white py-16 px-6 font-sans">
+    <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-12">
+        <div>
+            <div className="text-4xl font-black uppercase mb-4 tracking-tighter">VitalSigns.</div>
+            <p className="text-slate-400 text-xs uppercase tracking-widest max-w-xs">
+                Printed in Istanbul. Hosted on Vercel.<br/>
+                © 2026 Student Research Unit.
             </p>
         </div>
-        <div className="flex gap-12 text-sm font-bold text-slate-600">
-            <div className="flex flex-col gap-3">
-                <span className="text-black uppercase tracking-widest text-xs font-black">Journal</span>
-                <Link to="/" className="hover:text-blue-600">Top Stories</Link>
-                <a href="#" className="hover:text-blue-600">Archives</a>
-                <a href="#" className="hover:text-blue-600">Authors</a>
-            </div>
-            <div className="flex flex-col gap-3">
-                <span className="text-black uppercase tracking-widest text-xs font-black">Club</span>
-                <Link to="/club" className="hover:text-blue-600">Membership</Link>
-                <a href="#" className="hover:text-blue-600">Contact Faculty</a>
-                <a href="#" className="hover:text-blue-600">Instagram</a>
-            </div>
+        <div className="flex gap-8 text-xs font-bold uppercase tracking-widest">
+            <Link to="/" className="hover:text-blue-400">Journal</Link>
+            <Link to="/club" className="hover:text-blue-400">Club HQ</Link>
+            <a href="#" className="hover:text-blue-400">Instagram</a>
+            <a href="#" className="hover:text-blue-400">Email</a>
         </div>
-    </div>
-    <div className="max-w-6xl mx-auto px-6 mt-16 pt-8 border-t border-slate-200 text-[10px] text-slate-400 uppercase tracking-widest flex justify-between">
-        <span>© 2026 VitalSigns Biomedical Unit</span>
-        <span>Science for Everyone</span>
     </div>
   </footer>
 );
