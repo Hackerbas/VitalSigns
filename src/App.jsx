@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { 
-  Menu, X, Microscope, Brain, FlaskConical, 
-  ChevronRight, Calendar, Award, Droplets, 
-  Activity, ClipboardCheck, Users
+  Menu, X, Microscope, FlaskConical, BookOpen, 
+  Calendar, Users, AlertCircle, CheckCircle, ChevronRight
 } from 'lucide-react';
 
 const VitalSignsWebsite = () => {
   return (
     <Router>
-      {/* THEME: "The Medical Society" - Royal Blue, Academic, Clean */}
-      <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-700 selection:text-white flex flex-col">
+      {/* THEME: "Natural Institutional" - Clean, text-focused, professional blue */}
+      <div className="min-h-screen bg-white text-slate-800 font-sans selection:bg-blue-100 flex flex-col">
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -23,47 +22,44 @@ const VitalSignsWebsite = () => {
   );
 };
 
-// --- COMPONENTS ---
-
+// --- NAVBAR ---
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
-      <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-        {/* REAL LOGO IMPLEMENTATION */}
-        <Link to="/" className="flex items-center gap-3 group">
-           <img 
-             src="/logo.png" 
-             alt="VitalSigns Logo" 
-             className="w-12 h-12 object-contain group-hover:scale-105 transition duration-300"
-           />
-           <div className="flex flex-col leading-tight">
-             <span className="font-bold text-lg text-blue-900 tracking-tight uppercase">VitalSigns</span>
-             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Medical & Health Sciences Society</span>
+    <nav className="sticky top-0 z-50 bg-white border-b border-slate-200">
+      <div className="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
+        {/* LOGO AREA */}
+        <Link to="/" className="flex items-center gap-3">
+           {/* Assuming logo.png is in your public folder */}
+           <img src="/logo.png" alt="VitalSigns Logo" className="w-12 h-12 object-contain" />
+           <div className="flex flex-col">
+             <span className="font-bold text-lg text-blue-900 leading-tight uppercase tracking-tight">VitalSigns</span>
+             <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">Medical & Health Sciences Society</span>
            </div>
         </Link>
         
-        {/* DESKTOP NAV */}
-        <div className="hidden md:flex items-center gap-1">
-          <Link to="/" className="px-5 py-2 text-sm font-bold text-slate-600 hover:text-blue-700 transition">Home</Link>
-          <Link to="/programs" className="px-5 py-2 text-sm font-bold text-slate-600 hover:text-blue-700 transition">Programs</Link>
-          <Link to="/membership" className="ml-2 bg-blue-700 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-blue-200 hover:bg-blue-800 transition hover:shadow-none hover:translate-y-[1px]">
-            Join Society
+        {/* DESKTOP LINKS */}
+        <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+          <Link to="/" className="hover:text-blue-700 transition">About</Link>
+          <Link to="/programs" className="hover:text-blue-700 transition">Programs & Fair</Link>
+          <Link to="/membership" className="px-5 py-2.5 bg-blue-700 text-white rounded hover:bg-blue-800 transition">
+            Join Club
           </Link>
         </div>
 
-        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-blue-900">
+        {/* MOBILE TOGGLE */}
+        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-slate-700">
           {isOpen ? <X /> : <Menu />}
         </button>
       </div>
       
-       {/* MOBILE NAV */}
+       {/* MOBILE MENU */}
        {isOpen && (
         <div className="md:hidden bg-white border-b border-slate-200 p-6 space-y-4">
-           <Link to="/" onClick={()=>setIsOpen(false)} className="block font-bold text-slate-700">Home</Link>
-           <Link to="/programs" onClick={()=>setIsOpen(false)} className="block font-bold text-slate-700">Programs</Link>
-           <Link to="/membership" onClick={()=>setIsOpen(false)} className="block font-bold text-blue-700">Join Society</Link>
+           <Link to="/" onClick={()=>setIsOpen(false)} className="block font-semibold">About</Link>
+           <Link to="/programs" onClick={()=>setIsOpen(false)} className="block font-semibold">Programs</Link>
+           <Link to="/membership" onClick={()=>setIsOpen(false)} className="block font-semibold text-blue-700">Join Club</Link>
         </div>
       )}
     </nav>
@@ -74,103 +70,49 @@ const Navbar = () => {
 const Home = () => {
   return (
     <main>
-      {/* HERO SECTION - USING YOUR BANNER */}
-      <div className="bg-blue-900 text-white py-24 px-6 relative overflow-hidden min-h-[500px] flex items-center">
+      {/* HERO BANNER */}
+      <div className="relative w-full h-[300px] md:h-[400px] bg-slate-100 flex items-center justify-center overflow-hidden">
+         {/* Using your banner.jpg */}
+         <img src="/banner.jpg" alt="Club Banner" className="absolute inset-0 w-full h-full object-cover" />
+         <div className="absolute inset-0 bg-blue-900/60"></div> {/* Blue Overlay for text readability */}
          
-         {/* THE BANNER BACKGROUND */}
-         <div className="absolute inset-0 z-0">
-            <img 
-              src="/banner.jpg" 
-              alt="VitalSigns Banner" 
-              className="w-full h-full object-cover"
-            />
-            {/* Dark Blue Overlay so text is readable on top of the banner */}
-            <div className="absolute inset-0 bg-blue-900/85 backdrop-blur-[2px]"></div>
+         <div className="relative z-10 text-center text-white px-6 max-w-3xl">
+             <h1 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-md">Science & Innovation Lab</h1>
+             <p className="text-lg md:text-xl text-blue-100 font-medium">
+               Biomedical & Health Sciences Society
+             </p>
          </div>
-         
-         <div className="max-w-4xl mx-auto text-center relative z-10">
-            <div className="inline-block bg-white/10 border border-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
-               Science & Innovation Lab
-            </div>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight drop-shadow-lg">
-               Advancing the Science of <br/>Medicine & Health
-            </h1>
-            <p className="text-xl text-blue-100 max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
-               A student-led society where members explore biology, chemistry, and health sciences through hands-on experiments and real-world research.
+      </div>
+
+      {/* MISSION SECTION */}
+      <div className="max-w-4xl mx-auto px-6 py-16">
+         <div className="mb-12">
+            <h2 className="text-2xl font-bold text-blue-900 mb-6 border-l-4 border-blue-600 pl-4">About the Club</h2>
+            <p className="text-lg text-slate-600 leading-relaxed mb-6">
+              The Science & Innovation Lab is a student-led club where students learn science through hands-on experiments, creative projects, and teamwork. Members explore topics from biology, health sciences, chemistry, and physics while developing scientific thinking and practicing proper lab safety.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-               <Link to="/programs" className="bg-white text-blue-900 px-8 py-4 rounded-xl font-bold hover:bg-blue-50 transition shadow-xl border-2 border-white">
-                  Explore Programs
-               </Link>
-               <Link to="/membership" className="bg-transparent border-2 border-white/50 px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-blue-900 transition text-white">
-                  Membership Info
-               </Link>
-            </div>
-         </div>
-      </div>
-
-      {/* THE THREE PILLARS */}
-      <div className="max-w-6xl mx-auto px-6 -mt-16 relative z-20">
-         <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-white p-8 rounded-2xl shadow-xl shadow-slate-900/10 flex flex-col items-center text-center border-b-4 border-blue-500">
-               <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 mb-6">
-                  <Microscope className="w-8 h-8" />
-               </div>
-               <h3 className="text-xl font-bold text-slate-900 mb-2">Medical Research</h3>
-               <p className="text-slate-500 text-sm">Investigating biological processes and disease prevention strategies.</p>
-            </div>
-            <div className="bg-white p-8 rounded-2xl shadow-xl shadow-slate-900/10 flex flex-col items-center text-center border-b-4 border-indigo-500">
-               <div className="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-600 mb-6">
-                  <Brain className="w-8 h-8" />
-               </div>
-               <h3 className="text-xl font-bold text-slate-900 mb-2">Health Sciences</h3>
-               <p className="text-slate-500 text-sm">Understanding hygiene, nutrition, and human anatomy.</p>
-            </div>
-            <div className="bg-white p-8 rounded-2xl shadow-xl shadow-slate-900/10 flex flex-col items-center text-center border-b-4 border-cyan-500">
-               <div className="w-16 h-16 bg-cyan-50 rounded-full flex items-center justify-center text-cyan-600 mb-6">
-                  <FlaskConical className="w-8 h-8" />
-               </div>
-               <h3 className="text-xl font-bold text-slate-900 mb-2">Laboratory Experiments</h3>
-               <p className="text-slate-500 text-sm">Hands-on activities like water filtration and reaction time testing.</p>
-            </div>
-         </div>
-      </div>
-
-      {/* ABOUT SECTION */}
-      <div className="py-24 px-6 max-w-7xl mx-auto">
-         <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div>
-               <h2 className="text-4xl font-bold text-slate-900 mb-6">Science is not just a subject. It's a practice.</h2>
-               <div className="space-y-6 text-lg text-slate-600 leading-relaxed">
-                  <p>
-                     The <strong className="text-blue-700">Science & Innovation Lab</strong> is where students move beyond textbooks. We focus on fun, safe, and engaging experiments that connect to daily life.
-                  </p>
-                  <ul className="space-y-3">
-                     {[
-                        "Real-world science connected to health & environment",
-                        "Teamwork, responsibility, and problem-solving",
-                        "Preparing projects for the School Science Fair"
-                     ].map((item, i) => (
-                        <li key={i} className="flex items-start gap-3 text-base">
-                           <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0"></div>
-                           {item}
-                        </li>
-                     ))}
+            <div className="grid md:grid-cols-2 gap-8 mt-8">
+               <div className="bg-slate-50 p-6 rounded border border-slate-200">
+                  <h3 className="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                     <FlaskConical className="w-5 h-5 text-blue-600" /> Key Focus Areas
+                  </h3>
+                  <ul className="space-y-2 text-sm text-slate-600 list-disc list-inside">
+                     <li>Fun, safe, and engaging scientific experiments</li>
+                     <li>Biology, hygiene, nutrition, and water filtration activities</li>
+                     <li>Real-world science connected to daily life</li>
+                     <li>Preparation for the School Science Fair</li>
                   </ul>
                </div>
-            </div>
-            <div className="bg-slate-100 rounded-3xl p-8 relative">
-               <div className="absolute top-4 right-4 bg-white px-4 py-2 rounded-lg shadow-sm font-bold text-blue-700 text-sm">
-                  Est. 2026
-               </div>
-               {/* PLACEHOLDER FOR A REAL LAB PHOTO IN FUTURE */}
-               <div className="aspect-[4/3] bg-white rounded-xl flex flex-col items-center justify-center text-slate-400 mb-6 border-2 border-dashed border-slate-300">
-                  <Users className="w-12 h-12 mb-2" />
-                  <span className="text-sm font-bold">Club Photo Area</span>
-               </div>
-               <div className="text-center">
-                  <p className="font-bold text-slate-900">Meetings: 1–3 times per week</p>
-                  <p className="text-slate-500 text-sm">Lunch or Break Times</p>
+               <div className="bg-slate-50 p-6 rounded border border-slate-200">
+                   <h3 className="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                     <Users className="w-5 h-5 text-blue-600" /> Member Activities
+                  </h3>
+                  <ul className="space-y-2 text-sm text-slate-600 list-disc list-inside">
+                     <li>Participate in hands-on research</li>
+                     <li>Work individually and in teams on collaborative projects</li>
+                     <li>Follow all lab safety rules responsibly</li>
+                     <li>Build actual projects, not just theory</li>
+                  </ul>
                </div>
             </div>
          </div>
@@ -182,76 +124,81 @@ const Home = () => {
 // --- PROGRAMS PAGE ---
 const Programs = () => {
   return (
-    <div className="py-20 px-6 max-w-7xl mx-auto">
-       <div className="text-center mb-16">
-          <span className="text-blue-600 font-bold uppercase tracking-widest text-sm">Curriculum</span>
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mt-3 mb-6">Our Core Programs</h1>
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-             All members complete two required foundation programs, with an optional third program for advanced research.
+    <div className="max-w-5xl mx-auto px-6 py-16">
+       
+       {/* INTRO */}
+       <div className="text-center mb-16 max-w-2xl mx-auto">
+          <h1 className="text-3xl font-bold text-slate-900 mb-4">Our Curriculum</h1>
+          <p className="text-slate-600">
+             We offer three structured, lab-based programs focused on hands-on learning. Two are required for all members, and one is optional for advanced students.
           </p>
        </div>
 
+       {/* PROGRAM CARDS - Clean & Simple */}
        <div className="space-y-8">
-          {/* PROGRAM 1: FOUNDATIONS */}
-          <div className="bg-white border border-slate-200 rounded-2xl p-8 md:p-12 shadow-sm flex flex-col md:flex-row gap-8 items-start">
-             <div className="bg-blue-100 p-6 rounded-xl shrink-0">
-                <Droplets className="w-10 h-10 text-blue-600" />
+          
+          {/* Program 1 */}
+          <div className="flex flex-col md:flex-row gap-6 bg-white border border-slate-200 p-8 rounded shadow-sm hover:border-blue-300 transition">
+             <div className="shrink-0">
+                <div className="w-12 h-12 bg-blue-100 text-blue-700 flex items-center justify-center rounded font-bold text-xl">1</div>
              </div>
              <div>
-                <div className="flex items-center gap-3 mb-3">
-                   <h3 className="text-2xl font-bold text-slate-900">Bio & Health Foundations</h3>
-                   <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded uppercase">Required</span>
-                </div>
-                <p className="text-slate-600 text-lg leading-relaxed mb-6">
-                   Introduces basic human biology, public health, and health ethics. A key project is the <strong>Water Filtration Lab</strong>, exploring clean water and disease prevention.
+                <h3 className="text-xl font-bold text-slate-900 mb-2">Bio & Health Foundations <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded ml-2 uppercase">Required</span></h3>
+                <p className="text-slate-600 mb-4 leading-relaxed">
+                   Introduces basic human biology, public health, and health ethics through discussions and labs. A key project is a water filtration lab exploring clean water and disease prevention.
                 </p>
-                <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 inline-block">
-                   <span className="text-xs font-bold text-slate-400 uppercase block mb-1">Outcome</span>
-                   <span className="font-bold text-slate-800">Filtration Project + Presentation</span>
+                <div className="text-sm font-semibold text-slate-500 bg-slate-50 px-4 py-2 rounded inline-block">
+                   Outcome: Filtration project + Presentation
                 </div>
              </div>
           </div>
 
-          {/* PROGRAM 2: BIOMEDICAL LAB */}
-          <div className="bg-white border border-slate-200 rounded-2xl p-8 md:p-12 shadow-sm flex flex-col md:flex-row gap-8 items-start">
-             <div className="bg-indigo-100 p-6 rounded-xl shrink-0">
-                <Activity className="w-10 h-10 text-indigo-600" />
+          {/* Program 2 */}
+          <div className="flex flex-col md:flex-row gap-6 bg-white border border-slate-200 p-8 rounded shadow-sm hover:border-blue-300 transition">
+             <div className="shrink-0">
+                <div className="w-12 h-12 bg-blue-100 text-blue-700 flex items-center justify-center rounded font-bold text-xl">2</div>
              </div>
              <div>
-                <div className="flex items-center gap-3 mb-3">
-                   <h3 className="text-2xl font-bold text-slate-900">Biomedical Lab & Human Health</h3>
-                   <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded uppercase">Required</span>
-                </div>
-                <p className="text-slate-600 text-lg leading-relaxed mb-6">
-                   Builds on Program 1 with lab investigations on how daily habits affect health. Activities include <strong>Heart Rate Analysis</strong> and <strong>Reaction Time Experiments</strong>.
+                <h3 className="text-xl font-bold text-slate-900 mb-2">Biomedical Lab & Human Health <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded ml-2 uppercase">Required</span></h3>
+                <p className="text-slate-600 mb-4 leading-relaxed">
+                   Builds on Program 1 with investigations on how biological processes and daily habits affect health. Activities include heart rate, reaction time, and exercise-related experiments.
                 </p>
-                <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 inline-block">
-                   <span className="text-xs font-bold text-slate-400 uppercase block mb-1">Outcome</span>
-                   <span className="font-bold text-slate-800">Guided Lab Investigation Report</span>
+                <div className="text-sm font-semibold text-slate-500 bg-slate-50 px-4 py-2 rounded inline-block">
+                   Outcome: Guided lab investigation + Report
                 </div>
              </div>
           </div>
 
-          {/* PROGRAM 3: SCIENCE FAIR */}
-          <div className="bg-slate-900 text-white rounded-2xl p-8 md:p-12 shadow-xl flex flex-col md:flex-row gap-8 items-start relative overflow-hidden">
-             <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600 rounded-full blur-[100px] opacity-20 pointer-events-none"></div>
+          {/* Program 3 */}
+          <div className="flex flex-col md:flex-row gap-6 bg-slate-900 text-white p-8 rounded shadow-md relative overflow-hidden">
+             {/* Subtle decoration */}
+             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600 rounded-full blur-3xl opacity-20"></div>
              
-             <div className="bg-white/10 p-6 rounded-xl shrink-0 backdrop-blur-sm border border-white/10">
-                <Award className="w-10 h-10 text-yellow-400" />
+             <div className="shrink-0 relative z-10">
+                <div className="w-12 h-12 bg-white/20 text-white flex items-center justify-center rounded font-bold text-xl">3</div>
              </div>
              <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-3">
-                   <h3 className="text-2xl font-bold">Research & Science Fair</h3>
-                   <span className="bg-white/20 text-white text-xs font-bold px-2 py-1 rounded uppercase border border-white/10">Optional / Advanced</span>
-                </div>
-                <p className="text-slate-300 text-lg leading-relaxed mb-6">
-                   Prepares members to design and present a health-related research project for the club’s End-of-Year Science Fair. This program offers additional leadership opportunities.
+                <h3 className="text-xl font-bold text-white mb-2">Research & Science Fair <span className="text-xs bg-white/20 text-white px-2 py-1 rounded ml-2 uppercase">Optional</span></h3>
+                <p className="text-slate-300 mb-4 leading-relaxed">
+                   Prepares members to design and present a health-related research project for the club’s Science Fair. Offers additional experience and leadership opportunities.
                 </p>
-                <div className="bg-white/10 p-4 rounded-lg border border-white/10 inline-block">
-                   <span className="text-xs font-bold text-slate-400 uppercase block mb-1">Outcome</span>
-                   <span className="font-bold text-white">Science Fair Presentation</span>
+                <div className="text-sm font-semibold text-slate-300 bg-white/10 px-4 py-2 rounded inline-block">
+                   Outcome: End-of-Year Science Fair Presentation
                 </div>
              </div>
+          </div>
+
+       </div>
+
+       {/* SCIENCE FAIR SECTION */}
+       <div className="mt-16 bg-blue-50 border border-blue-100 p-8 rounded text-center">
+          <h2 className="text-2xl font-bold text-blue-900 mb-4">End-of-Year Science Fair</h2>
+          <p className="text-slate-700 max-w-2xl mx-auto mb-6">
+             At the end of the school year, we host a Science Fair where members present selected lab and research projects. Participation is encouraged for all members and required for those in the Research Program.
+          </p>
+          <div className="flex justify-center gap-4 text-sm font-bold text-blue-700">
+             <span className="flex items-center gap-2"><CheckCircle className="w-4 h-4"/> Showcase Projects</span>
+             <span className="flex items-center gap-2"><CheckCircle className="w-4 h-4"/> Biomedical Topics</span>
           </div>
        </div>
     </div>
@@ -261,34 +208,43 @@ const Programs = () => {
 // --- MEMBERSHIP PAGE ---
 const Membership = () => {
    return (
-      <div className="py-20 px-6 max-w-3xl mx-auto">
-         <div className="bg-white border-2 border-blue-600 rounded-3xl p-8 md:p-12 text-center shadow-xl shadow-blue-100">
-            <ClipboardCheck className="w-16 h-16 text-blue-600 mx-auto mb-6" />
-            <h1 className="text-4xl font-bold text-slate-900 mb-6">Join the Society</h1>
-            <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-               We are looking for students who demonstrate interest, commitment, and responsibility. Active participation is required for all members.
+      <div className="max-w-3xl mx-auto px-6 py-16">
+         <div className="text-center mb-12">
+            <h1 className="text-3xl font-bold text-slate-900 mb-4">Join the Club</h1>
+            <p className="text-lg text-slate-600">
+               We are looking for students ready to commit to scientific discovery and teamwork.
             </p>
-            
-            <div className="bg-slate-50 rounded-xl p-6 text-left mb-8 space-y-4">
-               <div className="flex items-center gap-3">
-                  <Calendar className="w-5 h-5 text-blue-600" />
-                  <span className="font-bold text-slate-900">1–3 Meetings Per Week</span>
-               </div>
-               <div className="flex items-center gap-3">
-                  <Users className="w-5 h-5 text-blue-600" />
-                  <span className="font-bold text-slate-900">Team & Individual Projects</span>
-               </div>
-               <div className="flex items-center gap-3">
-                  <Award className="w-5 h-5 text-blue-600" />
-                  <span className="font-bold text-slate-900">Certificates Awarded for Completion</span>
-               </div>
-            </div>
+         </div>
 
-            <button className="w-full bg-blue-700 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-800 transition shadow-lg">
+         <div className="bg-white border border-slate-200 rounded p-8 shadow-sm mb-8">
+            <h3 className="font-bold text-lg text-slate-900 mb-6 flex items-center gap-2">
+               <Calendar className="w-5 h-5 text-blue-600" /> Commitment & Meetings
+            </h3>
+            <ul className="space-y-4 text-slate-600">
+               <li className="flex gap-3">
+                  <span className="text-blue-600 font-bold">•</span>
+                  <span>Meetings take place 1–3 times per week during lunch or break times.</span>
+               </li>
+               <li className="flex gap-3">
+                  <span className="text-blue-600 font-bold">•</span>
+                  <span>Active participation is required. Repeated lack of performance or unsafe behavior may result in removal.</span>
+               </li>
+               <li className="flex gap-3">
+                  <span className="text-blue-600 font-bold">•</span>
+                  <span>To recognize effort, certificates will be awarded to members who complete projects and follow safety guidelines.</span>
+               </li>
+            </ul>
+         </div>
+
+         <div className="bg-slate-50 p-6 rounded text-center border border-slate-200">
+            <p className="text-slate-700 mb-6 font-medium">
+               Ready to conduct real experiments and learn biomedical science?
+            </p>
+            <button className="bg-blue-700 text-white px-8 py-3 rounded font-bold hover:bg-blue-800 transition w-full md:w-auto">
                Open Application Form
             </button>
             <p className="text-xs text-slate-400 mt-4">
-               *Repeated lack of performance or unsafe behavior may result in removal.
+               *This form helps us understand your interest and readiness to join the lab.
             </p>
          </div>
       </div>
@@ -296,18 +252,18 @@ const Membership = () => {
 };
 
 const Footer = () => (
-  <footer className="bg-slate-900 text-white py-12 px-6">
-    <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+  <footer className="bg-slate-900 text-white py-12 border-t border-slate-800">
+    <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="flex items-center gap-3">
-           {/* LOGO IN FOOTER */}
-           <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain" />
+           {/* Footer Logo */}
+           <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain brightness-0 invert" />
            <div>
-              <div className="font-bold uppercase tracking-wider">VitalSigns</div>
+              <div className="font-bold uppercase tracking-wider text-sm">VitalSigns</div>
               <div className="text-[10px] text-slate-400 uppercase">Medical & Health Sciences Society</div>
            </div>
         </div>
         <div className="text-sm text-slate-400">
-             © 2026 Science & Innovation Lab. All Rights Reserved.
+             © 2026 Science & Innovation Lab.
         </div>
     </div>
   </footer>
